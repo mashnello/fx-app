@@ -10,7 +10,9 @@
   color: rgb(256, 256, 256);
   font-size: 18px;
   font-weight: 600;
-  padding: 20px 135px;
+  padding: 20px 0;
+  width: calc(100% - 70px);
   border-radius: 35px;
+  border: 0;
   outline: none;
 }

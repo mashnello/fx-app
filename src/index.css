@@ -15,6 +15,8 @@ code {
 
 .credits {
   font-size: 12px;
+  max-width: 415px;
+  box-sizing: border-box;
   padding: 20px;
   position: absolute;
   bottom: 0;
