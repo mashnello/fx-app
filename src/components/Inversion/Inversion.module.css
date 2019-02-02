@@ -1,0 +1,37 @@
+.invertWrapper {
+  display: flex;
+  transform: translateY(50%);
+  text-align: center;
+  padding: 0 20px;
+}
+
+.invert {
+  background-color: rgb(256, 256, 256);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border: 2px solid rgb(243, 244, 245);
+  color: rgb(0, 117, 235);
+}
+
+.rateWrapper {
+  background-color: rgb(256, 256, 256);
+  display: flex;
+  transform: translateX(-15px);
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 15px;
+  padding: 5px 15px;
+  border: 2px solid rgb(243, 244, 245);
+  color: rgb(0, 117, 235);
+  margin: 0 auto;
+  font-size: 18px;
+}
+
+.rate {
+  margin-left: 10px;
+}

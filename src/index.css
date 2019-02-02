@@ -12,3 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.credits {
+  font-size: 12px;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+}
