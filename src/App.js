@@ -10,15 +10,10 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <header>
-          <div className="icons">
-            <CloseIcon width={20} height={20} />
-            <GraphIcon width={20} height={20} />
-            <SwitchIcon width={20} height={20} />
-            <ArrowIcon width={20} height={20} />
-            <ArrowDownIcon width={20} height={20} />
-          </div>
-          <h1 className="header">Exchange</h1>
+        <header className="header">
+          <CloseIcon width={15} height={15} />
+          <h1 className="title">Exchange</h1>
+          <GraphIcon width={20} height={20} />
         </header>
         <main>
           <div className="ccy ccy1">
@@ -28,6 +23,7 @@ class App extends Component {
                 <option value="EUR">EUR</option>
                 <option value="GBP">GBP</option>
               </select>
+              <ArrowDownIcon width={20} height={20} />
               <input
                 className="ccy-value"
                 type="number"
@@ -37,8 +33,15 @@ class App extends Component {
             <div className="balance">Balance: $0.00</div>
           </div>
           <div className="ccy-switch-wrapper">
-            <div className="ccy-switch"></div>
-            <div className="ccy-rate">$1 = zl4.2860</div>
+            <div className="ccy-switch">
+              <SwitchIcon width={15} height={15} />
+            </div>
+            <div className="ccy-rate">
+              <ArrowIcon width={15} height={15} />
+              <span className="ccy-rate-value">
+                $1 = zl4.2860
+              </span>
+            </div>
           </div>
           <div className="ccy ccy2">
             <div className="ccy-wrapper">
@@ -47,6 +50,7 @@ class App extends Component {
                 <option value="EUR">EUR</option>
                 <option value="GBP">GBP</option>
               </select>
+              <ArrowDownIcon width={20} height={20} />
               <input
                 className="ccy-value"
                 type="number"
@@ -61,11 +65,7 @@ class App extends Component {
         </main>
         <footer>
           <div className="credits">
-            <div>Icons made by <a href="https://www.flaticon.com/authors/egor-rumyantsev" title="Egor Rumyantsev">Egor Rumyantsev</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> and <a href="https://www.flaticon.com/authors/egor-rumyantsev" title="Egor Rumyantsev">Egor Rumyantsev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
           </div>
         </footer>
       </div>
