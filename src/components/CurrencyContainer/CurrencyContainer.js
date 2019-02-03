@@ -6,9 +6,9 @@ import CurrencySelector from '../CurrencySelector/';
 import CurrencyInput from '../CurrencyInput/';
 import Balance from '../Balance/';
 
-import styles from './Currency.module.css';
+import styles from './CurrencyContainer.module.css';
 
-class Currency extends Component {
+class CurrencyContainer extends Component {
   render() {
     const {
       ccyValue,
@@ -51,4 +51,4 @@ const mapStateToProps = ({ instrument }) => ({
   currencies: instrument.currencies,
 });
 
-export default connect(mapStateToProps)(Currency);
+export default connect(mapStateToProps)(CurrencyContainer);

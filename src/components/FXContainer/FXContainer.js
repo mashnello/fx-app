@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import FXButton from '../FXButton/';
-import Currency from '../Currency/';
-import Inversion from '../Inversion/';
+import CurrencyContainer from '../CurrencyContainer/';
+import FXCentralPanel from '../FXCentralPanel/';
 import {
   changeCurrencyValue,
   changeCurrencyCode,
@@ -29,15 +29,15 @@ class FXContainer extends Component {
 
     return (
       <main>
-        <Currency
+        <CurrencyContainer
           ccyCode={ccy1Code}
           ccyValue={ccy1Value}
           isValid={hasEnoughInPocket}
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy1')}
           onCurrencyChange={changeCurrencyCode.bind(null, 'ccy1')}
         />
-        <Inversion />
-        <Currency
+        <FXCentralPanel />
+        <CurrencyContainer
           ccyCode={ccy2Code}
           ccyValue={ccy2Value}
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy2')}

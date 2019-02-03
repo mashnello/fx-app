@@ -1,0 +1,12 @@
+.invert {
+  background-color: rgb(256, 256, 256);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border: 2px solid rgb(243, 244, 245);
+  color: rgb(0, 117, 235);
+}
