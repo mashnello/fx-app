@@ -1,28 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { ReactComponent as ArrowDownIcon } from '../../icons/arrow-down.svg';
+import CurrencySelector from '../CurrencySelector/';
+import CurrencyInput from '../CurrencyInput/';
+import Balance from '../Balance/';
 
 import styles from './Currency.module.css';
 
-const Currency = () => {
-  return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <select className={styles.list}>
-          <option value="USD" selected>USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-        </select>
-        <ArrowDownIcon width={20} height={20} />
-        <input
-          type="number"
-          className={styles.value}
-          placeholder="0"
+class Currency extends Component {
+  render() {
+    const {
+      ccyValue,
+      onCurrencyChange,
+      onCurrencyValueChange,
+      ccyCode = 'EUR',
+      accounts,
+      currencies,
+    } = this.props;
+    const ccySymbol = currencies[ccyCode].symbol;
+    return (
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <CurrencySelector
+            value={ccyCode}
+            onChange={onCurrencyChange}
+            currencies={Object.keys(currencies)}
+          />
+          <ArrowDownIcon width={20} height={20} />
+          <CurrencyInput
+            value={ccyValue}
+            onChange={onCurrencyValueChange}
+          />
+        </div>
+        <Balance
+          value={accounts[ccyCode]}
+          ccySymbol={ccySymbol}
         />
       </div>
-      <div className={styles.balance}>Balance: $0.00</div>
-    </div>
-  );
+    );
+  }
 };
 
-export default Currency;
+const mapStateToProps = state => ({
+  accounts: state.accounts,
+  balance: state.balance,
+  currencies: state.currencies,
+});
+
+export default connect(mapStateToProps)(Currency);

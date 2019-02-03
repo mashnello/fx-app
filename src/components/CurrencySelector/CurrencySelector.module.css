@@ -1,0 +1,11 @@
+
+.list {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 36px;
+  margin-right: 5px;
+  border: 0;
+  background-color: transparent;
+  outline: 0;
+}
