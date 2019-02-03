@@ -14,7 +14,7 @@ class Currency extends Component {
       ccyValue,
       onCurrencyChange,
       onCurrencyValueChange,
-      ccyCode = 'EUR',
+      ccyCode,
       accounts,
       currencies,
     } = this.props;

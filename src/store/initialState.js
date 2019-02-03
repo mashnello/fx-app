@@ -1,14 +1,15 @@
 const initialState = {
   ccy1: {
-    value: 0,
-    code: 'USD',
+    value: 100,
+    code: 'GBP',
     symbol: '$'
   },
   ccy2: {
-    value: 0,
+    value: 500,
     code: 'USD',
     symbol: '$'
   },
+  rate: 1.2532,
   accounts: {
     USD: 2.50,
     EUR: 5,
