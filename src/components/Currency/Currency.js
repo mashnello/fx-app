@@ -12,13 +12,14 @@ class Currency extends Component {
   render() {
     const {
       ccyValue,
-      onCurrencyChange,
       onCurrencyValueChange,
+      onCurrencyChange,
       ccyCode,
       accounts,
       currencies,
     } = this.props;
     const ccySymbol = currencies[ccyCode].symbol;
+
     return (
       <div className={styles.container}>
         <div className={styles.wrapper}>
@@ -42,10 +43,10 @@ class Currency extends Component {
   }
 };
 
-const mapStateToProps = state => ({
-  accounts: state.accounts,
-  balance: state.balance,
-  currencies: state.currencies,
+const mapStateToProps = ({ instrument }) => ({
+  accounts: instrument.accounts,
+  balance: instrument.balance,
+  currencies: instrument.currencies,
 });
 
 export default connect(mapStateToProps)(Currency);

@@ -25,11 +25,11 @@ const Inversion = ({ ccy1Code, ccy2Code, currencies, rate }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  ccy1Code: state.ccy1.code,
-  ccy2Code: state.ccy2.code,
-  currencies: state.currencies,
-  rate: state.rate,
+const mapStateToProps = ({ instrument }) => ({
+  ccy1Code: instrument.ccy1.code,
+  ccy2Code: instrument.ccy2.code,
+  currencies: instrument.currencies,
+  rate: instrument.rate,
 });
 
 export default connect(mapStateToProps)(Inversion);

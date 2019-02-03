@@ -3,12 +3,14 @@ import React from 'react';
 import styles from './CurrencyInput.module.css';
 
 const CurrencyInput = ({ value, onChange }) => {
+  const handleChange = ({ target }) => onChange(target.value);
+
   return (
     <input
-      type="number"
+      type="text"
       placeholder="0"
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       className={styles.input}
     />
   );
