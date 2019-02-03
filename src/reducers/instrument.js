@@ -3,6 +3,7 @@ import {
   CHANGE_CURRENCY_CODE,
   INVERT_CURRENCY_PAIR,
   EXCHANGE_AMOUNT,
+  FETCH_CURRENCY_RATES_SUCCESS,
 } from '../actions/instrument';
 import initialState from '../store/initialState';
 import {
@@ -13,6 +14,16 @@ import {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_CURRENCY_RATES_SUCCESS: {
+      const { ccy1, ccy2 } = state;
+      const rate = getRate(ccy1.code, ccy2.code, action.rates);
+
+      return {
+        ...state,
+        rates: action.rates,
+        rate,
+      };
+    }
     case CHANGE_CURRENCY_VALUE: {
       const { rate } = state;
       const { id: base, value } = action;

@@ -9,9 +9,22 @@ import {
   changeCurrencyValue,
   changeCurrencyCode,
   exchangeAmount,
+  fetchCurrencyRatesCall,
 } from '../../actions/instrument';
 
 class FXContainer extends Component {
+  componentDidMount() {
+    const DELAY = 10000;
+    const { fetchCurrencyRatesCall } = this.props;
+    fetchCurrencyRatesCall();
+    this.timer = setInterval(fetchCurrencyRatesCall, DELAY);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    this.timer = null;
+  }
+
   render() {
     const {
       ccy1Code,
@@ -64,6 +77,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   changeCurrencyCode,
   changeCurrencyValue,
   exchangeAmount,
+  fetchCurrencyRatesCall,
 }, dispatch);
 
 export default connect(
