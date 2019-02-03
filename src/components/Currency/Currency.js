@@ -15,7 +15,7 @@ class Currency extends Component {
       onCurrencyValueChange,
       onCurrencyChange,
       ccyCode,
-      accounts,
+      pockets,
       currencies,
     } = this.props;
     const ccySymbol = currencies[ccyCode].symbol;
@@ -35,7 +35,7 @@ class Currency extends Component {
           />
         </div>
         <Balance
-          value={accounts[ccyCode]}
+          value={pockets[ccyCode]}
           ccySymbol={ccySymbol}
         />
       </div>
@@ -44,7 +44,7 @@ class Currency extends Component {
 };
 
 const mapStateToProps = ({ instrument }) => ({
-  accounts: instrument.accounts,
+  pockets: instrument.pockets,
   balance: instrument.balance,
   currencies: instrument.currencies,
 });

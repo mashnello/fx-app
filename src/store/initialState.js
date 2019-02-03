@@ -8,7 +8,7 @@ const initialState = {
     code: 'USD',
   },
   rate: 1.2532,
-  accounts: {
+  pockets: {
     USD: 2.50,
     EUR: 5,
     GBP: 3.47,
@@ -25,9 +25,9 @@ const initialState = {
     },
   },
   rates: {
+    EUR: 0.87108,
+    GBP: 0.76234,
     USD: 1,
-    EUR: 1.2,
-    GBP: 1.3,
   }
 };
 
