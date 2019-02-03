@@ -26,7 +26,7 @@ export const exchangeAmount = () => ({
   type: EXCHANGE_AMOUNT
 });
 
-export const fetchCurrencyRates = () => ({
+export const fetchCurrencyRatesStart = () => ({
   type: FETCH_CURRENCY_RATES
 });
 
@@ -39,10 +39,10 @@ export const fetchCurrencyRatesError = error => ({
   type: FETCH_CURRENCY_RATES_ERROR
 });
 
-export const fetchCurrencyRatesCall = () => dispatch => {
-    dispatch(fetchCurrencyRates());
-    return fetch(API_URL)
+export const fetchCurrencyRates = () => dispatch => {
+  dispatch(fetchCurrencyRatesStart());
+  return fetch(API_URL)
     .then(response => response.json())
     .then(data => dispatch(fetchCurrencyRatesSuccess(data)))
     .catch(error => dispatch(fetchCurrencyRatesError(error)));
-  }
+}
