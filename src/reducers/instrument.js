@@ -1,24 +1,25 @@
 import {
   CHANGE_CURRENCY_VALUE,
   CHANGE_CURRENCY_CODE,
-  UPDATE_CURRENCY_RATE,
 } from '../actions/instrument';
 import initialState from '../store/initialState';
 import {
   getCounter,
   applyRate,
   formatAmount,
-} from '../utils/'
+} from '../utils/';
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_CURRENCY_VALUE: {
       const { id: base, value } = action;
-      const { rate } = state;
       const counter = getCounter(base);
-      console.log(value);
+      const { rate: prevRate, rates } = state;
+      const rate = (rates[counter] / rates[base]) || prevRate;
+
       return {
         ...state,
+        rate,
         [base]: {
           ...state[base],
           value: formatAmount(value)
@@ -30,14 +31,26 @@ export default (state = initialState, action) => {
       }
     }
     case CHANGE_CURRENCY_CODE: {
-      const { id, code } = action;
-      const ccy = state[id];
+      const { id: base, code } = action;
+      const counter = getCounter(base);
+      const { rate: prevRate, rates } = state;
+      const rate = (rates[counter] / rates[base]) || prevRate;
+      const updatedCounter = state[counter].code === code
+        ? {
+          [counter]: {
+            ...state[counter],
+            code: state[base].code
+          }
+        }
+        : {};
       return {
         ...state,
-        [id]: {
-          ...ccy,
+        rate,
+        [base]: {
+          ...state[base],
           code
-        }
+        },
+        ...updatedCounter
       }
     }
     default:
