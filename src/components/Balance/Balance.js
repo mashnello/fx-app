@@ -2,10 +2,13 @@ import React from 'react';
 
 import styles from './Balance.module.css';
 
-const Balance = ({ value, ccySymbol }) => {
+const Balance = ({ value, ccySymbol, isValid }) => {
   return (
     <div
-      className={styles.balance}
+      className={`
+        ${styles.balance}
+        ${isValid ? '' : styles.invalid}
+      `}
     >
       Balance: {ccySymbol}{value}
     </div>

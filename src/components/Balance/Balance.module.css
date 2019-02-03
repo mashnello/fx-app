@@ -5,3 +5,7 @@
   color: rgb(120, 120, 120);
   padding: 10px 0;
 }
+
+.invalid {
+  color: rgb(235, 0, 141);
+}

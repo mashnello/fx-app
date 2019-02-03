@@ -8,6 +8,7 @@ import Inversion from '../Inversion/';
 import {
   changeCurrencyValue,
   changeCurrencyCode,
+  exchangeAmount,
 } from '../../actions/instrument';
 
 class FXContainer extends Component {
@@ -19,12 +20,19 @@ class FXContainer extends Component {
       ccy2Value,
       changeCurrencyValue,
       changeCurrencyCode,
+      exchangeAmount,
+      pockets,
     } = this.props;
+    const isValidAmount = ccy1Value >= 0.1;
+    const hasEnoughInPocket = ccy1Value <= pockets[ccy1Code];
+    const isDisabled = !isValidAmount || !hasEnoughInPocket;
+
     return (
       <main>
         <Currency
           ccyCode={ccy1Code}
           ccyValue={ccy1Value}
+          isValid={hasEnoughInPocket}
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy1')}
           onCurrencyChange={changeCurrencyCode.bind(null, 'ccy1')}
         />
@@ -35,7 +43,10 @@ class FXContainer extends Component {
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy2')}
           onCurrencyChange={changeCurrencyCode.bind(null, 'ccy2')}
         />
-        <FXButton />
+        <FXButton
+          isDisabled={isDisabled}
+          onClick={exchangeAmount}
+        />
       </main>
     );
   }
@@ -46,11 +57,13 @@ const mapStateToProps = ({ instrument }) => ({
   ccy2Code: instrument.ccy2.code,
   ccy1Value: instrument.ccy1.value,
   ccy2Value: instrument.ccy2.value,
+  pockets: instrument.pockets,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   changeCurrencyCode,
   changeCurrencyValue,
+  exchangeAmount,
 }, dispatch);
 
 export default connect(
