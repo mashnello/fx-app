@@ -1,13 +1,13 @@
 const initialState = {
   ccy1: {
+    code: 'USD',
     value: '',
-    code: 'GBP',
   },
   ccy2: {
+    code: 'EUR',
     value: '',
-    code: 'USD',
   },
-  rate: 1.2532,
+  rate: 1/3,
   pockets: {
     USD: 2.50,
     EUR: 5,
@@ -25,8 +25,8 @@ const initialState = {
     },
   },
   rates: {
-    EUR: 0.87108,
-    GBP: 0.76234,
+    EUR: 3,
+    GBP: 5,
     USD: 1,
   }
 };
