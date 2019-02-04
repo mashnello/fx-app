@@ -17,6 +17,7 @@ class CurrencyContainer extends Component {
       ccyCode,
       pockets,
       currencies,
+      isBase,
       isValid = true
     } = this.props;
     const ccySymbol = currencies[ccyCode].symbol;
@@ -25,12 +26,14 @@ class CurrencyContainer extends Component {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <CurrencySelector
+            isBase={isBase}
             value={ccyCode}
             onChange={onCurrencyChange}
             currencies={Object.keys(currencies)}
           />
           <ArrowDownIcon width={20} height={20} />
           <CurrencyInput
+            isBase={isBase}
             value={ccyValue}
             onChange={onCurrencyValueChange}
           />

@@ -43,6 +43,7 @@ class FXContainer extends Component {
     return (
       <main>
         <CurrencyContainer
+          isBase
           ccyCode={ccy1Code}
           ccyValue={ccy1Value}
           isValid={hasEnoughInPocket}

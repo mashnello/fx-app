@@ -1,19 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 
+import { formatCurrencyOutput, parseCurrency } from '../../utils/';
 import styles from './CurrencyInput.module.css';
 
-const CurrencyInput = ({ value, onChange }) => {
-  const handleChange = ({ target }) => onChange(target.value);
+class CurrencyInput extends Component {
+  state = { value: '' }
 
-  return (
-    <input
-      type="text"
-      placeholder="0"
-      value={value}
-      onChange={handleChange}
-      className={styles.input}
-    />
-  );
+  handleChange = ({ target }) => {
+    const { value } = target;
+    this.setState({ value: parseCurrency(value) });
+    this.props.onChange(parseCurrency(value));
+  }
+
+  render() {
+    const { isBase, value } = this.props;
+    const localValue = this.state.value;
+    const formattedCurrency = isBase
+      ? formatCurrencyOutput(localValue, isBase)
+      : formatCurrencyOutput(value)
+
+    return (
+      <input
+        type="text"
+        placeholder="0"
+        maxLength={16}
+        value={formattedCurrency}
+        onChange={this.handleChange}
+        className={styles.input}
+      />
+    );
+  }
 };
 
 export default CurrencyInput;
