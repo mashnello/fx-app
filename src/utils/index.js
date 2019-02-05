@@ -1,5 +1,9 @@
 export const getCounter = base => base === 'ccy1' ? 'ccy2' : 'ccy1';
 
+export const isCcy1 = ccy => ccy === 'ccy1';
+
+export const isCcy2 = ccy => ccy === 'ccy2';
+
 export const applyRate = (amount, rate) => {
   if (!amount || isNaN(Number(amount))) return amount;
   return parseFloat(amount) * rate;
