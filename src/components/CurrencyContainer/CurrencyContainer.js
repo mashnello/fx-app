@@ -32,7 +32,7 @@ class CurrencyContainer extends Component {
             onChange={onCurrencyChange}
             currencies={Object.keys(currencies)}
           />
-          <ArrowDownIcon width={20} height={20} />
+          <ArrowDownIcon width={15} height={15} />
           <CurrencyInput
             isBase={isBase}
             value={ccyValue}

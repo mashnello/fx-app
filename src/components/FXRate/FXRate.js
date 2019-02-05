@@ -10,7 +10,7 @@ const FXRate = ({ ccy1Code, ccy2Code, currencies, rate }) => {
 
   return (
     <div className={styles.rateWrapper}>
-      <ArrowIcon width={15} height={15} />
+      <ArrowIcon width={17} height={17} />
       <span className={styles.rate}>
         {ccy1Symbol}1 = {ccy2Symbol}{formatRate(rate)}
       </span>
