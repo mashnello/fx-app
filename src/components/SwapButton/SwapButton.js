@@ -1,13 +1,13 @@
 import React from 'react';
-import { ReactComponent as InvertIcon } from '../../icons/invert.svg';
+import { ReactComponent as SwapIcon } from '../../icons/swap.svg';
 
 import styles from './SwapButton.module.css';
 
 const SwapButton = ({ onClick }) => {
   return (
-    <div className={styles.invert}>
+    <div className={styles.swap}>
       <button onClick={onClick}>
-        <InvertIcon width={15} height={15} />
+        <SwapIcon width={15} height={15} />
       </button>
     </div>
   );

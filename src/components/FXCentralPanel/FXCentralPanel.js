@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { invertCurrencyPair } from '../../actions/instrument';
+import { swapCurrency } from '../../actions/instrument';
 import FXRate from '../FXRate/';
 import SwapButton from '../SwapButton/';
 
 import styles from './FXCentralPanel.module.css';
 
 const FXCentralPanel = ({
-  ccy1Code, ccy2Code, currencies, rate, invertCurrencyPair
+  ccy1Code, ccy2Code, currencies, rate, swapCurrency
 }) => {
   return (
     <div className={styles.wrapper}>
-      <SwapButton onClick={invertCurrencyPair} />
+      <SwapButton onClick={swapCurrency} />
       <FXRate
         rate={rate}
         ccy1Code={ccy1Code}
@@ -31,7 +31,7 @@ const mapStateToProps = ({ instrument }) => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  invertCurrencyPair
+  swapCurrency
 }, dispatch);
 
 export default connect(

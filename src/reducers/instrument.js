@@ -55,11 +55,11 @@ export default (state = initialState, action) => {
       const baseCode = state[base].code;
       const counterCode = state[counter].code;
       const counterValue = state[counter].value;
-      const isInverted = counterCode === code;
+      const isSwaped = counterCode === code;
       const rate = getRate(code, counterCode, rates);
       console.log(code, baseCode, counterCode);
 
-      const invertedCodes = isInverted
+      const swapedCodes = isSwaped
         ? {
           rate: getRate(ccy2.code, ccy1.code, rates),
           ccy1: {
@@ -83,7 +83,7 @@ export default (state = initialState, action) => {
           value: applyRate(counterValue, rate),
           formatted: formatCurrencyOutput(applyRate(counterValue, rate))
         },
-        ...invertedCodes,
+        ...swapedCodes,
       };
     }
     case SWAP_CURRENCY: {

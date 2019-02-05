@@ -18,7 +18,7 @@ export const changeCurrencyCode = (id, code) => ({
   id, code
 });
 
-export const invertCurrencyPair = () => ({
+export const swapCurrency = () => ({
   type: SWAP_CURRENCY
 });
 
