@@ -21,7 +21,7 @@ export const formatInteger = value => {
 export const formatDecimal = value => {
   const [integer, fraction] = String(value).split('.');
   const formattedDecimal = [
-    formatInteger(integer),
+    formatInteger(integer || 0),
     fraction.replace(/\./, '').slice(0, 2)
   ].join('.');
 
