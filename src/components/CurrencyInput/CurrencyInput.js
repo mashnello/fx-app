@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
 
-import { formatCurrencyOutput, parseCurrency } from '../../utils/';
+import { addPrefix } from '../../utils/';
+
 import styles from './CurrencyInput.module.css';
 
 class CurrencyInput extends Component {
-  state = { value: '' }
-
   handleChange = ({ target }) => {
-    const { value } = target;
-    this.setState({ value: parseCurrency(value) });
-    this.props.onChange(parseCurrency(value));
+    this.props.onChange(target.value);
   }
 
   render() {
-    const { isBase, value } = this.props;
-    const localValue = this.state.value;
-    const formattedCurrency = isBase
-      ? formatCurrencyOutput(localValue, isBase)
-      : formatCurrencyOutput(value)
-
+    const { value, isBase } = this.props;
     return (
       <input
         type="text"
         placeholder="0"
         maxLength={16}
-        value={formattedCurrency}
+        value={addPrefix(value, isBase)}
         onChange={this.handleChange}
         className={styles.input}
       />

@@ -2,10 +2,12 @@ const initialState = {
   ccy1: {
     code: 'USD',
     value: '',
+    formatted: '',
   },
   ccy2: {
     code: 'EUR',
     value: '',
+    formatted: '',
   },
   rate: 1/3,
   pockets: {

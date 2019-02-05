@@ -69,8 +69,8 @@ class FXContainer extends Component {
 const mapStateToProps = ({ instrument }) => ({
   ccy1Code: instrument.ccy1.code,
   ccy2Code: instrument.ccy2.code,
-  ccy1Value: instrument.ccy1.value,
-  ccy2Value: instrument.ccy2.value,
+  ccy1Value: instrument.ccy1.formatted,
+  ccy2Value: instrument.ccy2.formatted,
   pockets: instrument.pockets,
 });
 

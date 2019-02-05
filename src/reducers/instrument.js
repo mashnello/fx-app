@@ -9,7 +9,10 @@ import initialState from '../store/initialState';
 import {
   getCounter,
   applyRate,
+  loosenRate,
   getRate,
+  parseCurrency,
+  formatCurrencyOutput,
 } from '../utils/';
 
 export default (state = initialState, action) => {
@@ -34,11 +37,13 @@ export default (state = initialState, action) => {
         rate,
         [base]: {
           ...state[base],
-          value,
+          value: Number(parseCurrency(value)),
+          formatted: formatCurrencyOutput(parseCurrency(value), base)
         },
         [counter]: {
           ...state[counter],
-          value: applyRate(value, rate),
+          value: applyRate(parseCurrency(value), rate),
+          formatted: formatCurrencyOutput(applyRate(parseCurrency(value), rate), counter)
         }
       };
     }
@@ -56,7 +61,7 @@ export default (state = initialState, action) => {
         ? {
           ccy1: {
             code: ccy2.code,
-            value: ccy1.value,
+            value: loosenRate(ccy1.value, rate),
           },
           ccy2: {
             code: ccy1.code,

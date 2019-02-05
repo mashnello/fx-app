@@ -5,10 +5,15 @@ export const applyRate = (amount, rate) => {
   return parseFloat(amount) * rate;
 };
 
+export const loosenRate = (amount, rate) => {
+  if (!amount || isNaN(Number(amount))) return amount;
+  return parseFloat(amount) / rate;
+};
+
 export const formatInteger = value => {
   const isEmptyInput = value === '';
   const formattedInteger = new Intl.NumberFormat('en-US', {
-    maximumSignificantDigits: 3
+    maximumFractionDigits: 3
   }).format(value);
 
   return isEmptyInput ? value : formattedInteger;
@@ -31,14 +36,15 @@ export const addPrefix = (value, isBase) => {
   return isTruthy ? `${prefix} ${value}` : value;
 };
 
-export const formatCurrencyOutput = (value, isBase) => {
+export const formatCurrencyOutput = value => {
   const formattedString = /\./.test(value)
     ? formatDecimal(value)
     : formatInteger(value);
 
-  return addPrefix(formattedString, isBase);
+  return formattedString;
 };
 
+window.formatCurrencyOutput = formatCurrencyOutput;
 export const parseCurrency = value => {
   const dotsInValue = value.match(/\./g) && value.match(/\./g).length;
   const withSingleDot = dotsInValue > 1 ? value.replace(/\.$/, '') : value;
