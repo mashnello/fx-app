@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { invertCurrencyPair } from '../../actions/instrument';
 import FXRate from '../FXRate/';
-import InvertButton from '../InvertButton/';
+import SwapButton from '../SwapButton/';
 
 import styles from './FXCentralPanel.module.css';
 
@@ -13,7 +12,7 @@ const FXCentralPanel = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <InvertButton onClick={invertCurrencyPair} />
+      <SwapButton onClick={invertCurrencyPair} />
       <FXRate
         rate={rate}
         ccy1Code={ccy1Code}

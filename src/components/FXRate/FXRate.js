@@ -1,6 +1,5 @@
 import React from 'react';
-
-import {  ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
+import { ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
 import { formatRate } from '../../utils/';
 
 import styles from './FXRate.module.css';

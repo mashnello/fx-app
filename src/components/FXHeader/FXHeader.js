@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { ReactComponent as CloseIcon } from '../../icons/close.svg';
 import { ReactComponent as GraphIcon } from '../../icons/graph.svg';
 

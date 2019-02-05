@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import FXHeader from './FXHeader/';
 import FXContainer from './FXContainer';
 

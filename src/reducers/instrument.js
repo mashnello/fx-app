@@ -1,7 +1,7 @@
 import {
   CHANGE_CURRENCY_VALUE,
   CHANGE_CURRENCY_CODE,
-  INVERT_CURRENCY_PAIR,
+  SWAP_CURRENCY,
   EXCHANGE_AMOUNT,
   FETCH_CURRENCY_RATES_SUCCESS,
 } from '../actions/instrument';
@@ -9,7 +9,6 @@ import initialState from '../store/initialState';
 import {
   getCounter,
   applyRate,
-  loosenRate,
   getRate,
   parseCurrency,
   formatCurrencyOutput,
@@ -23,27 +22,29 @@ export default (state = initialState, action) => {
 
       return {
         ...state,
-        rates: action.rates,
         rate,
+        rates: action.rates,
       };
     }
     case CHANGE_CURRENCY_VALUE: {
       const { rate } = state;
       const { id: base, value } = action;
       const counter = getCounter(base);
+      const parsedValue = parseCurrency(value);
+      const convertedValue = applyRate(parsedValue, rate);
 
       return {
         ...state,
         rate,
         [base]: {
           ...state[base],
-          value: Number(parseCurrency(value)),
-          formatted: formatCurrencyOutput(parseCurrency(value), base)
+          value: Number(parsedValue),
+          formatted: formatCurrencyOutput(parsedValue, base)
         },
         [counter]: {
           ...state[counter],
-          value: applyRate(parseCurrency(value), rate),
-          formatted: formatCurrencyOutput(applyRate(parseCurrency(value), rate), counter)
+          value: convertedValue,
+          formatted: formatCurrencyOutput(convertedValue, counter)
         }
       };
     }
@@ -55,17 +56,21 @@ export default (state = initialState, action) => {
       const counterCode = state[counter].code;
       const counterValue = state[counter].value;
       const isInverted = counterCode === code;
-      const rate = getRate(baseCode, counterCode, rates);
+      const rate = getRate(code, counterCode, rates);
+      console.log(code, baseCode, counterCode);
 
       const invertedCodes = isInverted
         ? {
+          rate: getRate(ccy2.code, ccy1.code, rates),
           ccy1: {
             code: ccy2.code,
-            value: loosenRate(ccy1.value, rate),
+            value: ccy1.value,
+            formatted: ccy1.formatted
           },
           ccy2: {
             code: ccy1.code,
             value: applyRate(ccy1.value, rate),
+            formatted: formatCurrencyOutput(applyRate(ccy1.value, rate))
           },
         }
         : {};
@@ -76,11 +81,12 @@ export default (state = initialState, action) => {
         [base]: {
           code,
           value: applyRate(counterValue, rate),
+          formatted: formatCurrencyOutput(applyRate(counterValue, rate))
         },
         ...invertedCodes,
       };
     }
-    case INVERT_CURRENCY_PAIR: {
+    case SWAP_CURRENCY: {
       const { ccy1, ccy2, rates } = state;
       const rate = getRate(ccy2.code, ccy1.code, rates);
 
@@ -93,21 +99,31 @@ export default (state = initialState, action) => {
     }
     case EXCHANGE_AMOUNT: {
       const { ccy1, ccy2, pockets } = state;
+      const updatedBasePocket = pockets[ccy1.code].value - ccy1.value;
+      const updatedCounterPocket = pockets[ccy2.code].value + ccy2.value;
 
       return {
         ...state,
         ccy1: {
-          ...ccy1,
+          code: ccy1.code,
           value: '',
+          formatted: ''
         },
         ccy2: {
-          ...ccy2,
+          code: ccy2.code,
           value: '',
+          formatted: ''
         },
         pockets: {
           ...pockets,
-          [ccy1.code]: pockets[ccy1.code] - ccy1.value,
-          [ccy2.code]: pockets[ccy2.code] + ccy2.value,
+          [ccy1.code]: {
+            value: updatedBasePocket,
+            formatted: formatCurrencyOutput(updatedBasePocket),
+          },
+          [ccy2.code]: {
+            value: updatedCounterPocket,
+            formatted: formatCurrencyOutput(updatedCounterPocket),
+          },
         },
       };
     }

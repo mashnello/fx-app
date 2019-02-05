@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import FXButton from '../FXButton/';
 import CurrencyContainer from '../CurrencyContainer/';
 import FXCentralPanel from '../FXCentralPanel/';
@@ -30,14 +29,15 @@ class FXContainer extends Component {
       ccy1Code,
       ccy2Code,
       ccy1Value,
-      ccy2Value,
+      ccy1Formatted,
+      ccy2Formatted,
       changeCurrencyValue,
       changeCurrencyCode,
       exchangeAmount,
       pockets,
     } = this.props;
     const isValidAmount = ccy1Value >= 0.1;
-    const hasEnoughInPocket = ccy1Value <= pockets[ccy1Code];
+    const hasEnoughInPocket = ccy1Value <= pockets[ccy1Code].value;
     const isDisabled = !isValidAmount || !hasEnoughInPocket;
 
     return (
@@ -45,7 +45,7 @@ class FXContainer extends Component {
         <CurrencyContainer
           isBase
           ccyCode={ccy1Code}
-          ccyValue={ccy1Value}
+          ccyValue={ccy1Formatted}
           isValid={hasEnoughInPocket}
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy1')}
           onCurrencyChange={changeCurrencyCode.bind(null, 'ccy1')}
@@ -53,7 +53,7 @@ class FXContainer extends Component {
         <FXCentralPanel />
         <CurrencyContainer
           ccyCode={ccy2Code}
-          ccyValue={ccy2Value}
+          ccyValue={ccy2Formatted}
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy2')}
           onCurrencyChange={changeCurrencyCode.bind(null, 'ccy2')}
         />
@@ -69,8 +69,9 @@ class FXContainer extends Component {
 const mapStateToProps = ({ instrument }) => ({
   ccy1Code: instrument.ccy1.code,
   ccy2Code: instrument.ccy2.code,
-  ccy1Value: instrument.ccy1.formatted,
-  ccy2Value: instrument.ccy2.formatted,
+  ccy1Value: instrument.ccy1.value,
+  ccy1Formatted: instrument.ccy1.formatted,
+  ccy2Formatted: instrument.ccy2.formatted,
   pockets: instrument.pockets,
 });
 

@@ -1,10 +1,9 @@
 import React from 'react';
+import { ReactComponent as InvertIcon } from '../../icons/invert.svg';
 
-import {  ReactComponent as InvertIcon } from '../../icons/invert.svg';
+import styles from './SwapButton.module.css';
 
-import styles from './InvertButton.module.css';
-
-const InvertButton = ({ onClick }) => {
+const SwapButton = ({ onClick }) => {
   return (
     <div className={styles.invert}>
       <button onClick={onClick}>
@@ -14,4 +13,4 @@ const InvertButton = ({ onClick }) => {
   );
 };
 
-export default InvertButton;
+export default SwapButton;

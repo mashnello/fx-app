@@ -5,11 +5,6 @@ export const applyRate = (amount, rate) => {
   return parseFloat(amount) * rate;
 };
 
-export const loosenRate = (amount, rate) => {
-  if (!amount || isNaN(Number(amount))) return amount;
-  return parseFloat(amount) / rate;
-};
-
 export const formatInteger = value => {
   const isEmptyInput = value === '';
   const formattedInteger = new Intl.NumberFormat('en-US', {

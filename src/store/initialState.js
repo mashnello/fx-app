@@ -11,9 +11,18 @@ const initialState = {
   },
   rate: 1/3,
   pockets: {
-    USD: 10,
-    EUR: 10,
-    GBP: 10,
+    USD: {
+      value: 10,
+      formatted: '10.00'
+    },
+    EUR: {
+      value: 10,
+      formatted: '10.00'
+    },
+    GBP: {
+      value: 10,
+      formatted: '10.00'
+    }
   },
   currencies: {
     USD: {

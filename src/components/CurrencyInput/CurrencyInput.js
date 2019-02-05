@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { addPrefix } from '../../utils/';
 
 import styles from './CurrencyInput.module.css';
