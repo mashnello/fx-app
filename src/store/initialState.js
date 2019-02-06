@@ -4,12 +4,14 @@ const initialState = {
     value: '',
     formatted: '',
     focused: true,
+    fee: 0,
   },
   ccy2: {
     code: 'EUR',
     value: '',
     formatted: '',
     focused: false,
+    fee: 0,
   },
   rate: 0,
   pockets: {

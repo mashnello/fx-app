@@ -28,6 +28,8 @@ class FXContainer extends Component {
     const {
       ccy1Code,
       ccy2Code,
+      ccy1Fee,
+      ccy2Fee,
       ccy1Value,
       isCcy1Focused,
       isCcy2Focused,
@@ -47,6 +49,7 @@ class FXContainer extends Component {
         <CurrencyContainer
           isBase
           ccyCode={ccy1Code}
+          fee={ccy1Fee}
           focused={isCcy1Focused}
           ccyValue={ccy1Formatted}
           isValid={hasEnoughInPocket}
@@ -56,6 +59,7 @@ class FXContainer extends Component {
         <FXCentralPanel />
         <CurrencyContainer
           ccyCode={ccy2Code}
+          fee={ccy2Fee}
           focused={isCcy2Focused}
           ccyValue={ccy2Formatted}
           onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy2')}
@@ -73,6 +77,8 @@ class FXContainer extends Component {
 const mapStateToProps = ({ instrument }) => ({
   ccy1Code: instrument.ccy1.code,
   ccy2Code: instrument.ccy2.code,
+  ccy1Fee: instrument.ccy1.fee,
+  ccy2Fee: instrument.ccy2.fee,
   isCcy1Focused: instrument.ccy1.focused,
   isCcy2Focused: instrument.ccy2.focused,
   ccy1Value: instrument.ccy1.value,

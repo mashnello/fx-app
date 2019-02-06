@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { ReactComponent as ArrowDownIcon } from '../../icons/arrow-down.svg';
 import CurrencySelector from '../CurrencySelector/';
 import CurrencyInput from '../CurrencyInput/';
-import Balance from '../Balance/';
+import Legend from '../Legend/';
 import { changeFocus } from '../../actions/instrument';
 
 import styles from './CurrencyContainer.module.css';
@@ -20,6 +20,7 @@ class CurrencyContainer extends Component {
       ccyCode,
       pockets,
       currencies,
+      fee,
       focused,
       isBase,
       isValid = true
@@ -45,8 +46,9 @@ class CurrencyContainer extends Component {
             onChange={onCurrencyValueChange}
           />
         </div>
-        <Balance
-          value={pocketValue}
+        <Legend
+          balance={pocketValue}
+          fee={fee}
           ccySymbol={ccySymbol}
           isValid={isValid}
         />
