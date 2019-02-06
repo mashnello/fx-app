@@ -11,7 +11,7 @@ const initialState = {
     formatted: '',
     focused: false,
   },
-  rate: 1/3,
+  rate: 0,
   pockets: {
     USD: {
       value: 10,
@@ -44,11 +44,7 @@ const initialState = {
       symbol: 'zł',
     },
   },
-  rates: {
-    EUR: 3,
-    GBP: 5,
-    USD: 1,
-  }
+  rates: {}
 };
 
 export default initialState;

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { ReactComponent as ArrowDownIcon } from '../../icons/arrow-down.svg';
 import CurrencySelector from '../CurrencySelector/';
 import CurrencyInput from '../CurrencyInput/';
 import Balance from '../Balance/';
+import { changeFocus } from '../../actions/instrument';
 
 import styles from './CurrencyContainer.module.css';
 
@@ -12,6 +14,7 @@ class CurrencyContainer extends Component {
   render() {
     const {
       ccyValue,
+      changeFocus,
       onCurrencyValueChange,
       onCurrencyChange,
       ccyCode,
@@ -38,6 +41,7 @@ class CurrencyContainer extends Component {
             isBase={isBase}
             focused={focused}
             value={ccyValue}
+            onFocus={changeFocus}
             onChange={onCurrencyValueChange}
           />
         </div>
@@ -57,4 +61,10 @@ const mapStateToProps = ({ instrument }) => ({
   currencies: instrument.currencies,
 });
 
-export default connect(mapStateToProps)(CurrencyContainer);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  changeFocus
+}, dispatch);
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(CurrencyContainer);

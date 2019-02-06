@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { addPrefix } from '../../utils/';
+import { MAX_INPUT_LENGHT, addPrefix } from '../../utils/';
 
 import styles from './CurrencyInput.module.css';
 
 class CurrencyInput extends Component {
   input = React.createRef();
+  id = this.props.isBase ? 'ccy1' : 'ccy2';
 
   componentDidMount() {
     if (this.props.isBase) {
@@ -18,22 +19,25 @@ class CurrencyInput extends Component {
     }
   }
 
+  handleFocus = () => {
+    this.props.onFocus(this.id);
+  }
+
   handleChange = ({ target }) => {
     this.props.onChange(target.value);
   }
 
   render() {
     const { value, isBase } = this.props;
-    const id = isBase ? 'ccy1' : 'ccy2';
 
     return (
       <input
-        id={id}
         type="text"
         ref={this.input}
         placeholder="0"
-        maxLength={16}
+        maxLength={MAX_INPUT_LENGHT}
         value={addPrefix(value, isBase)}
+        onFocus={this.handleFocus}
         onChange={this.handleChange}
         className={styles.input}
       />

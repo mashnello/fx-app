@@ -1,3 +1,5 @@
+export const MAX_INPUT_LENGHT = 16;
+
 export const getCounter = base => base === 'ccy1' ? 'ccy2' : 'ccy1';
 
 export const isCcy1 = ccy => ccy === 'ccy1';
@@ -40,7 +42,9 @@ export const formatCurrencyOutput = value => {
     ? formatDecimal(value)
     : formatInteger(value);
 
-  return formattedString;
+  return formattedString.length < MAX_INPUT_LENGHT
+    ? formattedString
+    : '';
 };
 
 window.formatCurrencyOutput = formatCurrencyOutput;
@@ -57,3 +61,7 @@ export const getRate = (ccy1, ccy2, rates) => {
 };
 
 export const formatRate = rate => rate.toFixed(4);
+
+export const simulateTick = rates => Object.keys(rates).forEach(
+  code => rates[code] = rates[code] * Math.random() * (1.01 - 0.99) + 0.99
+);

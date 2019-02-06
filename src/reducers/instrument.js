@@ -1,4 +1,5 @@
 import {
+  CHANGE_FOCUS,
   CHANGE_CURRENCY_VALUE,
   CHANGE_CURRENCY_CODE,
   SWAP_CURRENCY,
@@ -15,10 +16,13 @@ import {
   formatCurrencyOutput,
   isCcy1,
   isCcy2,
+  simulateTick,
 } from '../utils/';
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case CHANGE_FOCUS:
+      return changeFocusReducer(state, action);
     case FETCH_CURRENCY_RATES_SUCCESS:
       return fetchCurrencyRatesSuccessReducer(state, action);
     case FETCH_CURRENCY_RATES_ERROR:
@@ -36,14 +40,41 @@ export default (state = initialState, action) => {
   }
 }
 
+export const changeFocusReducer = (state, action) => {
+  const { id: base } = action;
+  const counter = getCounter(base);
+
+  return {
+    ...state,
+    [base]: {
+      ...state[base],
+      focused: true
+    },
+    [counter]: {
+      ...state[counter],
+      focused: false
+    }
+  };
+};
+
 export const fetchCurrencyRatesSuccessReducer = (state, action) => {
   const { ccy1, ccy2 } = state;
-  const rate = getRate(ccy1.code, ccy2.code, action.rates);
+  const { rates } = action;
+  simulateTick(rates);
+  const rate = getRate(ccy1.code, ccy2.code, rates);
+  const base = ccy1.focused ? 'ccy1' : 'ccy2';
+  const counter = getCounter(base);
+  const convertedValue = applyRate(state[base].value, rate);
 
   return {
     ...state,
     rate,
-    rates: action.rates,
+    rates,
+    [counter]: {
+      ...state[counter],
+      value: convertedValue,
+      formatted: formatCurrencyOutput(convertedValue, base),
+    }
   };
 };
 
@@ -51,7 +82,7 @@ export const fetchCurrencyRatesErrorReducer = state => {
   return {
     ...state,
     rate: 0,
-    rates: [],
+    rates: {},
   };
 };
 
