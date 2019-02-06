@@ -22,6 +22,10 @@ const initialState = {
     GBP: {
       value: 10,
       formatted: '10.00'
+    },
+    PLN: {
+      value: 10,
+      formatted: '10.00'
     }
   },
   currencies: {
@@ -33,6 +37,9 @@ const initialState = {
     },
     GBP: {
       symbol: '£',
+    },
+    PLN: {
+      symbol: 'zł',
     },
   },
   rates: {
