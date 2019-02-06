@@ -7,12 +7,13 @@ import styles from './FXRate.module.css';
 const FXRate = ({ ccy1Code, ccy2Code, currencies, rate }) => {
   const ccy1Symbol = currencies[ccy1Code].symbol;
   const ccy2Symbol = currencies[ccy2Code].symbol;
+  const formattedRate = `${ccy1Symbol}1 = ${ccy2Symbol}${formatRate(rate)}`;
 
   return (
     <div className={styles.rateWrapper}>
       <ArrowIcon width={17} height={17} />
       <span className={styles.rate}>
-        {ccy1Symbol}1 = {ccy2Symbol}{formatRate(rate)}
+        {rate ? formattedRate : null}
       </span>
     </div>
   );

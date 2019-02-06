@@ -4,6 +4,7 @@ import {
   SWAP_CURRENCY,
   EXCHANGE_AMOUNT,
   FETCH_CURRENCY_RATES_SUCCESS,
+  FETCH_CURRENCY_RATES_ERROR,
 } from '../actions/instrument';
 import initialState from '../store/initialState';
 import {
@@ -19,7 +20,9 @@ import {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CURRENCY_RATES_SUCCESS:
-      return fetchCurrencyRatesReducer(state, action);
+      return fetchCurrencyRatesSuccessReducer(state, action);
+    case FETCH_CURRENCY_RATES_ERROR:
+      return fetchCurrencyRatesErrorReducer(state, action);
     case CHANGE_CURRENCY_VALUE:
       return changeCurrencyValueReducer(state, action);
     case CHANGE_CURRENCY_CODE:
@@ -33,7 +36,7 @@ export default (state = initialState, action) => {
   }
 }
 
-export const fetchCurrencyRatesReducer = (state, action) => {
+export const fetchCurrencyRatesSuccessReducer = (state, action) => {
   const { ccy1, ccy2 } = state;
   const rate = getRate(ccy1.code, ccy2.code, action.rates);
 
@@ -41,6 +44,14 @@ export const fetchCurrencyRatesReducer = (state, action) => {
     ...state,
     rate,
     rates: action.rates,
+  };
+};
+
+export const fetchCurrencyRatesErrorReducer = state => {
+  return {
+    ...state,
+    rate: 0,
+    rates: [],
   };
 };
 
