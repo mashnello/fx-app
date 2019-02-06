@@ -12,6 +12,12 @@ class CurrencyInput extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.focused) {
+      this.input.current.focus();
+    }
+  }
+
   handleChange = ({ target }) => {
     this.props.onChange(target.value);
   }

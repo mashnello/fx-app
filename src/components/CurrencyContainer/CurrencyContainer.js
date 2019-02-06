@@ -17,6 +17,7 @@ class CurrencyContainer extends Component {
       ccyCode,
       pockets,
       currencies,
+      focused,
       isBase,
       isValid = true
     } = this.props;
@@ -35,6 +36,7 @@ class CurrencyContainer extends Component {
           <ArrowDownIcon width={15} height={15} />
           <CurrencyInput
             isBase={isBase}
+            focused={focused}
             value={ccyValue}
             onChange={onCurrencyValueChange}
           />

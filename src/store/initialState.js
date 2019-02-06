@@ -3,11 +3,13 @@ const initialState = {
     code: 'USD',
     value: '',
     formatted: '',
+    focused: true,
   },
   ccy2: {
     code: 'EUR',
     value: '',
     formatted: '',
+    focused: false,
   },
   rate: 1/3,
   pockets: {

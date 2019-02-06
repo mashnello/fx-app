@@ -67,11 +67,13 @@ export const changeCurrencyValueReducer = (state, action) => {
     rate,
     [base]: {
       ...state[base],
+      focused: true,
       value: Number(parsedValue),
       formatted: formatCurrencyOutput(parsedValue, base),
     },
     [counter]: {
       ...state[counter],
+      focused: false,
       value: convertedValue,
       formatted: formatCurrencyOutput(convertedValue, counter),
     }
@@ -111,6 +113,7 @@ export const invertCurrencyReducer = state => {
       code: ccy2.code,
     },
     ccy2: {
+      ...ccy2,
       code: ccy1.code,
       value: applyRate(ccy1.value, rate),
       formatted: formatCurrencyOutput(applyRate(ccy1.value, rate)),
@@ -138,13 +141,14 @@ export const changeCcy1CodeReducer = (state, action) => {
 };
 
 export const changeCcy2CodeReducer = (state, action) => {
-  const { ccy1, rates } = state;
+  const { ccy1, ccy2, rates } = state;
   const rate = getRate(ccy1.code, action.code, rates);
 
   return {
     ...state,
     rate,
     ccy2: {
+      ...ccy2,
       code: action.code,
       value: applyRate(ccy1.value, rate),
       formatted: formatCurrencyOutput(applyRate(ccy1.value, rate)),
@@ -172,12 +176,12 @@ export const exchangeAmountReducer = (state, action) => {
   return {
     ...state,
     ccy1: {
-      code: ccy1.code,
+      ...ccy1,
       value: '',
       formatted: '',
     },
     ccy2: {
-      code: ccy2.code,
+      ...ccy2,
       value: '',
       formatted: '',
     },
