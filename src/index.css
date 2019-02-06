@@ -14,10 +14,8 @@ code {
 }
 
 .credits {
-  font-size: 12px;
+  font-size: 10px;
   max-width: 415px;
   box-sizing: border-box;
   padding: 20px;
-  position: fixed;
-  bottom: 0;
 }

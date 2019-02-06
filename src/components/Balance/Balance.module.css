@@ -3,7 +3,8 @@
   display: block;
   text-align: left;
   color: rgb(120, 120, 120);
-  padding: 10px 0;
+  padding: 5px 0;
+  font-size: 14px;
 }
 
 .invalid {

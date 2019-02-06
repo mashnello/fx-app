@@ -1,6 +1,7 @@
 .app {
   max-width: 415px;
   width: 100%;
+  z-index: 1;
   box-sizing: border-box;
   background-color: rgb(256, 256, 256);
 }
