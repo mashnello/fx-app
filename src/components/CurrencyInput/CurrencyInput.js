@@ -32,7 +32,7 @@ class CurrencyInput extends Component {
 
     return (
       <input
-        type="text"
+        type="tel"
         ref={this.input}
         placeholder="0"
         maxLength={MAX_INPUT_LENGHT}
