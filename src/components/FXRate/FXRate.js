@@ -1,13 +1,13 @@
 import React from 'react';
 import { ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
-import { formatRate } from '../../utils/';
+import { formatCurrencyOutput } from '../../utils/';
 
 import styles from './FXRate.module.css';
 
 const FXRate = ({ ccy1Code, ccy2Code, currencies, rate }) => {
   const ccy1Symbol = currencies[ccy1Code].symbol;
   const ccy2Symbol = currencies[ccy2Code].symbol;
-  const formattedRate = `${ccy1Symbol}1 = ${ccy2Symbol}${formatRate(rate)}`;
+  const formattedRate = `${ccy1Symbol}1 = ${ccy2Symbol}${formatCurrencyOutput(rate, 4)}`;
 
   return (
     <div className={styles.rateWrapper}>

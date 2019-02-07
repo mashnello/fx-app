@@ -20,11 +20,11 @@ export const formatInteger = value => {
   return isEmptyInput ? value : formattedInteger;
 };
 
-export const formatDecimal = value => {
+export const formatDecimal = (value, precision) => {
   const [integer, fraction] = String(value).split('.');
   const formattedDecimal = [
     formatInteger(integer || 0),
-    fraction.replace(/\./, '').slice(0, 2)
+    fraction.replace(/\./, '').slice(0, precision)
   ].join('.');
 
   return formattedDecimal;
@@ -37,9 +37,9 @@ export const addPrefix = (value, isBase) => {
   return isTruthy ? `${prefix} ${value}` : value;
 };
 
-export const formatCurrencyOutput = value => {
+export const formatCurrencyOutput = (value, precision = 2) => {
   const formattedString = /\./.test(value)
-    ? formatDecimal(value)
+    ? formatDecimal(value, precision)
     : formatInteger(value);
 
   return formattedString.length < MAX_INPUT_LENGHT
@@ -47,7 +47,6 @@ export const formatCurrencyOutput = value => {
     : '';
 };
 
-window.formatCurrencyOutput = formatCurrencyOutput;
 export const parseCurrency = value => {
   const dotsInValue = value.match(/\./g) && value.match(/\./g).length;
   const withSingleDot = dotsInValue > 1 ? value.replace(/\.$/, '') : value;
@@ -60,8 +59,12 @@ export const getRate = (ccy1, ccy2, rates) => {
   return rates[ccy1] / rates[ccy2];
 };
 
-export const formatRate = rate => rate.toFixed(4);
-
 export const simulateTick = rates => Object.keys(rates).forEach(
   code => rates[code] = rates[code] * Math.random() * (1.01 - 0.99) + 0.99
 );
+
+export const getFee = (value, fee, rate) => {
+  return value > fee.limit
+    ? (value - fee.limit) * fee.multiplier * rate
+    : 0;
+};

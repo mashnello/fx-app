@@ -14,23 +14,15 @@ const initialState = {
     fee: 0,
   },
   rate: 0,
+  fee: {
+    limit: 5000,
+    multiplier: 0.01,
+  },
   pockets: {
-    USD: {
-      value: 10,
-      formatted: '10.00'
-    },
-    EUR: {
-      value: 10,
-      formatted: '10.00'
-    },
-    GBP: {
-      value: 10,
-      formatted: '10.00'
-    },
-    PLN: {
-      value: 10,
-      formatted: '10.00'
-    }
+    USD: 10,
+    EUR: 10,
+    GBP: 10,
+    PLN: 10,
   },
   currencies: {
     USD: {

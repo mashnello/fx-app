@@ -26,7 +26,6 @@ class CurrencyContainer extends Component {
       isValid = true
     } = this.props;
     const ccySymbol = currencies[ccyCode].symbol;
-    const pocketValue = pockets[ccyCode].formatted;
 
     return (
       <div className={styles.container}>
@@ -47,8 +46,9 @@ class CurrencyContainer extends Component {
           />
         </div>
         <Legend
-          balance={pocketValue}
+          balance={pockets[ccyCode]}
           fee={fee}
+          ccyValue={ccyValue}
           ccySymbol={ccySymbol}
           isValid={isValid}
         />

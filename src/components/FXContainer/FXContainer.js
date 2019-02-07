@@ -41,9 +41,9 @@ class FXContainer extends Component {
       pockets,
     } = this.props;
     const isValidAmount = ccy1Value >= 0.1;
-    const hasEnoughInPocket = ccy1Value <= pockets[ccy1Code].value;
+    const hasEnoughInPocket = ccy1Value <= pockets[ccy1Code];
     const isDisabled = !isValidAmount || !hasEnoughInPocket;
-
+    
     return (
       <main>
         <CurrencyContainer

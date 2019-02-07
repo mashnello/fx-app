@@ -17,6 +17,7 @@ import {
   isCcy1,
   isCcy2,
   simulateTick,
+  getFee,
 } from '../utils/';
 
 export default (state = initialState, action) => {
@@ -73,7 +74,7 @@ export const fetchCurrencyRatesSuccessReducer = (state, action) => {
     [counter]: {
       ...state[counter],
       value: convertedValue,
-      formatted: formatCurrencyOutput(convertedValue, base),
+      formatted: formatCurrencyOutput(convertedValue),
     }
   };
 };
@@ -92,6 +93,7 @@ export const changeCurrencyValueReducer = (state, action) => {
   const counter = getCounter(base);
   const parsedValue = parseCurrency(value);
   const convertedValue = applyRate(parsedValue, rate);
+  const fee = getFee(parsedValue, state.fee, rate);
 
   return {
     ...state,
@@ -99,14 +101,16 @@ export const changeCurrencyValueReducer = (state, action) => {
     [base]: {
       ...state[base],
       focused: true,
+      fee: 0,
       value: Number(parsedValue),
-      formatted: formatCurrencyOutput(parsedValue, base),
+      formatted: formatCurrencyOutput(parsedValue),
     },
     [counter]: {
       ...state[counter],
       focused: false,
-      value: convertedValue,
-      formatted: formatCurrencyOutput(convertedValue, counter),
+      fee,
+      value: convertedValue + fee,
+      formatted: formatCurrencyOutput(convertedValue + fee),
     }
   };
 };
