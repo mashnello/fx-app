@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { swapCurrency } from '../../actions/instrument';
-import FXRate from '../FXRate/';
-import SwapButton from '../SwapButton/';
+import FXRate from '../../components/FXRate/';
+import SwapButton from '../../components/SwapButton/';
 
 import styles from './FXCentralPanel.module.css';
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import FXButton from '../FXButton/';
-import CurrencyContainer from '../CurrencyContainer/';
-import FXCentralPanel from '../FXCentralPanel/';
+import FXButton from '../../components/FXButton/';
+import CurrencyContainer from '../../containers/CurrencyContainer/';
+import FXCentralPanel from '../../containers/FXCentralPanel/';
 import {
   changeCurrencyValue,
   changeCurrencyCode,

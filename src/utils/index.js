@@ -1,4 +1,4 @@
-export const MAX_INPUT_LENGHT = 16;
+export const MAX_INPUT_LENGHT = 15;
 
 export const getCounter = base => base === 'ccy1' ? 'ccy2' : 'ccy1';
 

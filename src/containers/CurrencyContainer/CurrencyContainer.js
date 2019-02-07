@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { ReactComponent as ArrowDownIcon } from '../../icons/arrow-down.svg';
-import CurrencySelector from '../CurrencySelector/';
-import CurrencyInput from '../CurrencyInput/';
-import Legend from '../Legend/';
+import CurrencySelector from '../../components/CurrencySelector/';
+import CurrencyInput from '../../components/CurrencyInput/';
+import Legend from '../../components/Legend/';
 import { changeFocus } from '../../actions/instrument';
 
 import styles from './CurrencyContainer.module.css';

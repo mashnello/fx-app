@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FXHeader from './FXHeader/';
-import FXContainer from './FXContainer';
+import FXContainer from '../containers/FXContainer';
 
 import styles from './App.module.css';
 
