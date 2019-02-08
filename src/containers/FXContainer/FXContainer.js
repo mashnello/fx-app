@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import FXButton from '../../components/FXButton/';
-import CurrencyContainer from '../../containers/CurrencyContainer/';
-import FXCentralPanel from '../../containers/FXCentralPanel/';
-import {
-  changeCurrencyValue,
-  changeCurrencyCode,
-  exchangeAmount,
-  fetchCurrencyRates,
-} from '../../actions/instrument';
+import PropTypes from 'prop-types';
+
+import FXButton from '../../components/FXButton';
+import CurrencyContainer from '../CurrencyContainer';
+import FXCentralPanel from '../FXCentralPanel';
+import * as actions from '../../actions/instrument';
 
 class FXContainer extends Component {
   componentDidMount() {
@@ -43,27 +39,28 @@ class FXContainer extends Component {
     const isValidAmount = ccy1Value >= 0.1;
     const hasEnoughInPocket = ccy1Value <= pockets[ccy1Code];
     const isDisabled = !isValidAmount || !hasEnoughInPocket;
-    
+
     return (
       <main>
         <CurrencyContainer
-          isBase
+          id="ccy1"
           ccyCode={ccy1Code}
           fee={ccy1Fee}
           focused={isCcy1Focused}
           ccyValue={ccy1Formatted}
           isValid={hasEnoughInPocket}
-          onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy1')}
-          onCurrencyChange={changeCurrencyCode.bind(null, 'ccy1')}
+          onCurrencyChange={changeCurrencyCode}
+          onCurrencyValueChange={changeCurrencyValue}
         />
         <FXCentralPanel />
         <CurrencyContainer
+          id="ccy2"
           ccyCode={ccy2Code}
           fee={ccy2Fee}
           focused={isCcy2Focused}
           ccyValue={ccy2Formatted}
-          onCurrencyValueChange={changeCurrencyValue.bind(null, 'ccy2')}
-          onCurrencyChange={changeCurrencyCode.bind(null, 'ccy2')}
+          onCurrencyChange={changeCurrencyCode}
+          onCurrencyValueChange={changeCurrencyValue}
         />
         <FXButton
           isDisabled={isDisabled}
@@ -73,6 +70,24 @@ class FXContainer extends Component {
     );
   }
 }
+
+const { string, func, bool, number, objectOf } = PropTypes;
+
+FXContainer.propTypes = {
+  ccy1Code: string.isRequired,
+  ccy2Code: string.isRequired,
+  ccy1Fee: number.isRequired,
+  ccy2Fee: number.isRequired,
+  isCcy1Focused: bool.isRequired,
+  isCcy2Focused: bool.isRequired,
+  ccy1Formatted: string.isRequired,
+  ccy2Formatted: string.isRequired,
+  fetchCurrencyRates: func.isRequired,
+  changeCurrencyValue: func.isRequired,
+  changeCurrencyCode: func.isRequired,
+  exchangeAmount: func.isRequired,
+  pockets: objectOf(number).isRequired,
+};
 
 const mapStateToProps = ({ instrument }) => ({
   ccy1Code: instrument.ccy1.code,
@@ -87,14 +102,13 @@ const mapStateToProps = ({ instrument }) => ({
   pockets: instrument.pockets,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  changeCurrencyCode,
-  changeCurrencyValue,
-  exchangeAmount,
-  fetchCurrencyRates,
-}, dispatch);
+const mapDispatchToProps = {
+  changeCurrencyCode: actions.changeCurrencyCode,
+  changeCurrencyValue: actions.changeCurrencyValue,
+  exchangeAmount: actions.exchangeAmount,
+  fetchCurrencyRates: actions.fetchCurrencyRates,
+};
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, mapDispatchToProps
 )(FXContainer);

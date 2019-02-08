@@ -18,28 +18,8 @@ import {
   isCcy2,
   simulateTick,
   getFee,
-} from '../utils/';
+} from '../utils';
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case CHANGE_FOCUS:
-      return changeFocusReducer(state, action);
-    case FETCH_CURRENCY_RATES_SUCCESS:
-      return fetchCurrencyRatesSuccessReducer(state, action);
-    case FETCH_CURRENCY_RATES_ERROR:
-      return fetchCurrencyRatesErrorReducer(state, action);
-    case CHANGE_CURRENCY_VALUE:
-      return changeCurrencyValueReducer(state, action);
-    case CHANGE_CURRENCY_CODE:
-      return changeCurrencyCodeReducer(state, action);
-    case SWAP_CURRENCY:
-      return swapCurrencyReducer(state, action);
-    case EXCHANGE_AMOUNT:
-      return exchangeAmountReducer(state, action);
-    default:
-      return state;
-  }
-}
 
 export const changeFocusReducer = (state, action) => {
   const { id: base } = action;
@@ -115,27 +95,6 @@ export const changeCurrencyValueReducer = (state, action) => {
   };
 };
 
-export const changeCurrencyCodeReducer = (state, action) => {
-  const { id: base, code } = action;
-  const counter = getCounter(base);
-  const counterCode = state[counter].code;
-  const isInverted = counterCode === code;
-
-  if (isInverted) {
-    return invertCurrencyReducer(state);
-  }
-
-  if (isCcy1(base)) {
-    return changeCcy1CodeReducer(state, action);
-  }
-
-  if (isCcy2(base)) {
-    return changeCcy2CodeReducer(state, action);
-  }
-
-  return state;
-};
-
 export const invertCurrencyReducer = state => {
   const { ccy1, ccy2, rates } = state;
   const rate = getRate(ccy2.code, ccy1.code, rates);
@@ -189,9 +148,30 @@ export const changeCcy2CodeReducer = (state, action) => {
       formatted: formatCurrencyOutput(applyRate(ccy1.value, rate)),
     }
   };
-}
+};
 
-export const swapCurrencyReducer = (state, action) => {
+export const changeCurrencyCodeReducer = (state, action) => {
+  const { id: base, code } = action;
+  const counter = getCounter(base);
+  const counterCode = state[counter].code;
+  const isInverted = counterCode === code;
+
+  if (isInverted) {
+    return invertCurrencyReducer(state);
+  }
+
+  if (isCcy1(base)) {
+    return changeCcy1CodeReducer(state, action);
+  }
+
+  if (isCcy2(base)) {
+    return changeCcy2CodeReducer(state, action);
+  }
+
+  return state;
+};
+
+export const swapCurrencyReducer = state => {
   const { ccy1, ccy2, rates } = state;
   const rate = getRate(ccy2.code, ccy1.code, rates);
 
@@ -203,10 +183,10 @@ export const swapCurrencyReducer = (state, action) => {
   };
 };
 
-export const exchangeAmountReducer = (state, action) => {
+export const exchangeAmountReducer = state => {
   const { ccy1, ccy2, pockets } = state;
-  const updatedBasePocket = pockets[ccy1.code].value - ccy1.value;
-  const updatedCounterPocket = pockets[ccy2.code].value + ccy2.value;
+  const updatedBasePocket = pockets[ccy1.code] - ccy1.value;
+  const updatedCounterPocket = pockets[ccy2.code] + ccy2.value;
 
   return {
     ...state,
@@ -222,14 +202,30 @@ export const exchangeAmountReducer = (state, action) => {
     },
     pockets: {
       ...pockets,
-      [ccy1.code]: {
-        value: updatedBasePocket,
-        formatted: formatCurrencyOutput(updatedBasePocket),
-      },
-      [ccy2.code]: {
-        value: updatedCounterPocket,
-        formatted: formatCurrencyOutput(updatedCounterPocket),
-      },
+      [ccy1.code]: updatedBasePocket,
+      [ccy2.code]: updatedCounterPocket,
     },
   };
+};
+
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case CHANGE_FOCUS:
+      return changeFocusReducer(state, action);
+    case FETCH_CURRENCY_RATES_SUCCESS:
+      return fetchCurrencyRatesSuccessReducer(state, action);
+    case FETCH_CURRENCY_RATES_ERROR:
+      return fetchCurrencyRatesErrorReducer(state, action);
+    case CHANGE_CURRENCY_VALUE:
+      return changeCurrencyValueReducer(state, action);
+    case CHANGE_CURRENCY_CODE:
+      return changeCurrencyCodeReducer(state, action);
+    case SWAP_CURRENCY:
+      return swapCurrencyReducer(state, action);
+    case EXCHANGE_AMOUNT:
+      return exchangeAmountReducer(state, action);
+    default:
+      return state;
+  }
 };

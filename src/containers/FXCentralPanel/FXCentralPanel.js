@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { swapCurrency } from '../../actions/instrument';
-import FXRate from '../../components/FXRate/';
-import SwapButton from '../../components/SwapButton/';
+
+import * as actions from '../../actions/instrument';
+import FXRate from '../../components/FXRate';
+import SwapButton from '../../components/SwapButton';
 
 import styles from './FXCentralPanel.module.css';
 
@@ -23,6 +24,16 @@ const FXCentralPanel = ({
   );
 };
 
+const { string, func, number, objectOf, object } = PropTypes;
+
+FXCentralPanel.propTypes = {
+  ccy1Code: string.isRequired,
+  ccy2Code: string.isRequired,
+  currencies: objectOf(object).isRequired,
+  rate: number.isRequired,
+  swapCurrency: func.isRequired,
+};
+
 const mapStateToProps = ({ instrument }) => ({
   ccy1Code: instrument.ccy1.code,
   ccy2Code: instrument.ccy2.code,
@@ -30,11 +41,10 @@ const mapStateToProps = ({ instrument }) => ({
   rate: instrument.rate,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  swapCurrency
-}, dispatch);
+const mapDispatchToProps = {
+  swapCurrency: actions.swapCurrency,
+};
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, mapDispatchToProps
 )(FXCentralPanel);

@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
-import { formatCurrencyOutput } from '../../utils/';
+import { formatCurrencyOutput } from '../../utils';
 
 import styles from './FXRate.module.css';
 
@@ -17,6 +18,15 @@ const FXRate = ({ ccy1Code, ccy2Code, currencies, rate }) => {
       </span>
     </div>
   );
+};
+
+const { number, string, objectOf, object } = PropTypes;
+
+FXRate.propTypes = {
+  ccy1Code: string.isRequired,
+  ccy2Code: string.isRequired,
+  currencies: objectOf(object).isRequired,
+  rate: number.isRequired,
 };
 
 export default FXRate;

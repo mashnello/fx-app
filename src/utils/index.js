@@ -1,4 +1,4 @@
-export const MAX_INPUT_LENGHT = 15;
+export const MAX_INPUT_LENGHT = 14;
 
 export const getCounter = base => base === 'ccy1' ? 'ccy2' : 'ccy1';
 
@@ -7,7 +7,7 @@ export const isCcy1 = ccy => ccy === 'ccy1';
 export const isCcy2 = ccy => ccy === 'ccy2';
 
 export const applyRate = (amount, rate) => {
-  if (!amount || isNaN(Number(amount))) return amount;
+  if (!amount || !Number(amount)) return amount;
   return parseFloat(amount) * rate;
 };
 
@@ -60,7 +60,11 @@ export const getRate = (ccy1, ccy2, rates) => {
 };
 
 export const simulateTick = rates => Object.keys(rates).forEach(
-  code => rates[code] = rates[code] * Math.random() * (1.01 - 0.99) + 0.99
+  code => {
+    const correlation = Math.random() * (1.0001 - 0.9999) + 0.9999;
+    // eslint-disable-next-line
+    return rates[code] *= correlation;
+  }
 );
 
 export const getFee = (value, fee, rate) => {

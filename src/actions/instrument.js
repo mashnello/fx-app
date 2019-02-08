@@ -37,15 +37,15 @@ export const fetchCurrencyRatesSuccess = ({ rates }) => ({
   rates
 });
 
-export const fetchCurrencyRatesError = error => ({
+export const fetchCurrencyRatesError = () => ({
   type: FETCH_CURRENCY_RATES_ERROR
 });
 
 export const fetchCurrencyRates = () => dispatch => {
-  return fetch(API_URL)
+  return window.fetch(API_URL)
     .then(response => response.json())
     .then(data => dispatch(fetchCurrencyRatesSuccess(data)))
-    .catch(error => dispatch(fetchCurrencyRatesSuccess({
+    .catch(() => dispatch(fetchCurrencyRatesSuccess({
       "disclaimer": "Usage subject to terms: https://openexchangerates.org/terms",
       "license": "https://openexchangerates.org/license",
       "timestamp": 1549486800,

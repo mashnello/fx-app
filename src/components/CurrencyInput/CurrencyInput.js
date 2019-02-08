@@ -1,34 +1,40 @@
 import React, { Component } from 'react';
-import { MAX_INPUT_LENGHT, addPrefix } from '../../utils/';
+import PropTypes from 'prop-types';
+import { MAX_INPUT_LENGHT, addPrefix } from '../../utils';
 
 import styles from './CurrencyInput.module.css';
 
 class CurrencyInput extends Component {
   input = React.createRef();
-  id = this.props.isBase ? 'ccy1' : 'ccy2';
 
   componentDidMount() {
-    if (this.props.isBase) {
+    const { id } = this.props;
+    const isBase = id === 'ccy1';
+    if (isBase) {
       this.input.current.focus();
     }
   }
 
   componentDidUpdate() {
-    if (this.props.focused) {
+    const { focused } = this.props;
+    if (focused) {
       this.input.current.focus();
     }
   }
 
   handleFocus = () => {
-    this.props.onFocus(this.id);
+    const { id, onFocus } = this.props;
+    onFocus(id);
   }
 
   handleChange = ({ target }) => {
-    this.props.onChange(target.value);
+    const { id, onChange } = this.props;
+    onChange(id, target.value);
   }
 
   render() {
-    const { value, isBase } = this.props;
+    const { id, value } = this.props;
+    const isBase = id === 'ccy1';
 
     return (
       <input
@@ -43,6 +49,15 @@ class CurrencyInput extends Component {
       />
     );
   }
+};
+
+const { string, bool, func } = PropTypes;
+
+CurrencyInput.propTypes = {
+  id: string.isRequired,
+  onFocus: func.isRequired,
+  onChange: func.isRequired,
+  focused: bool.isRequired,
 };
 
 export default CurrencyInput;

@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ReactComponent as InfoIcon } from '../../icons/info.svg';
-import { formatCurrencyOutput } from '../../utils/';
+import { formatCurrencyOutput } from '../../utils';
+
 import styles from './Legend.module.css';
 
 const Legend = ({ balance, fee, ccySymbol, ccyValue, isValid }) => {
@@ -27,6 +29,16 @@ const Legend = ({ balance, fee, ccySymbol, ccyValue, isValid }) => {
 
     </div>
   );
+};
+
+const { number, string, bool } = PropTypes;
+
+Legend.propTypes = {
+  balance: number.isRequired,
+  fee: number.isRequired,
+  ccySymbol: string.isRequired,
+  ccyValue: string.isRequired,
+  isValid: bool.isRequired,
 };
 
 export default Legend;
