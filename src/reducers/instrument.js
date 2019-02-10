@@ -1,34 +1,13 @@
-import {
-  CHANGE_CURRENCY_CODE,
-  CHANGE_CURRENCY_VALUE,
-  CHANGE_FOCUS,
-  EXCHANGE_AMOUNT,
-  FETCH_CURRENCY_RATES_SUCCESS,
-  FETCH_CURRENCY_RATES_ERROR,
-  SWAP_CURRENCY,
-} from '../actions/instrument';
-import { CCY1, CCY2 } from '../constants';
+import * as types from '../constants/actionTypes';
+import { CCY1, CCY2 } from '../constants/common';
 import initialState from '../store/initialState';
-import {
-  applyRate,
-  getCounter,
-  getBaseRate,
-  getFormatted,
-  getFee,
-  getRate,
-  getValue,
-  formatCurrencyOutput,
-  isCcy1,
-  isCcy2,
-  parseCurrency,
-  simulateTick,
-} from '../utils';
+import * as utils from '../utils';
 
 
 export const changeFocusReducer = (state, action) => {
   const { id: base } = action;
-  const counter = getCounter(base);
-  const rate = isCcy1(base) ? state.rate : 1 / state.rate;
+  const counter = utils.getCounter(base);
+  const rate = utils.isCcy1(base) ? state.rate : 1 / state.rate;
 
   return {
     ...state,
@@ -48,13 +27,13 @@ export const fetchCurrencyRatesSuccessReducer = (state, action) => {
   const { [CCY1]: ccy1, [CCY2]: ccy2 } = state;
   const { rates } = action;
 
-  /simulateTick/.test(window.location.search) && simulateTick(rates);
+  /simulateTick/.test(window.location.search) && utils.simulateTick(rates);
 
   const base = ccy1.focused ? CCY1 : CCY2;
-  const baseRate = getBaseRate(ccy1.code, ccy2.code, rates);
-  const rate = getRate(ccy1.focused, baseRate);
-  const counter = getCounter(base);
-  const convertedValue = applyRate(state[base].value, rate);
+  const baseRate = utils.getBaseRate(ccy1.code, ccy2.code, rates);
+  const rate = utils.getRate(ccy1.focused, baseRate);
+  const counter = utils.getCounter(base);
+  const convertedValue = utils.applyRate(state[base].value, rate);
 
   return {
     ...state,
@@ -64,7 +43,7 @@ export const fetchCurrencyRatesSuccessReducer = (state, action) => {
     [counter]: {
       ...state[counter],
       value: convertedValue,
-      formatted: formatCurrencyOutput(convertedValue),
+      formatted: utils.formatCurrencyOutput(convertedValue),
     }
   };
 };
@@ -80,10 +59,10 @@ export const fetchCurrencyRatesErrorReducer = state => {
 export const changeCurrencyValueReducer = (state, action) => {
   const { rate } = state;
   const { id: base, value } = action;
-  const counter = getCounter(base);
-  const parsedValue = parseCurrency(value);
-  const convertedValue = applyRate(parsedValue, rate);
-  const fee = getFee(parsedValue, state.fee, rate);
+  const counter = utils.getCounter(base);
+  const parsedValue = utils.parseCurrency(value);
+  const convertedValue = utils.applyRate(parsedValue, rate);
+  const fee = utils.getFee(parsedValue, state.fee, rate);
 
   return {
     ...state,
@@ -93,22 +72,22 @@ export const changeCurrencyValueReducer = (state, action) => {
       focused: true,
       fee: 0,
       value: Number(parsedValue),
-      formatted: formatCurrencyOutput(parsedValue),
+      formatted: utils.formatCurrencyOutput(parsedValue),
     },
     [counter]: {
       ...state[counter],
       focused: false,
       fee,
       value: convertedValue + fee,
-      formatted: formatCurrencyOutput(convertedValue + fee),
+      formatted: utils.formatCurrencyOutput(convertedValue + fee),
     }
   };
 };
 
 export const invertCurrencyReducer = state => {
   const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
-  const baseRate = getBaseRate(ccy2.code, ccy1.code, rates);
-  const rate = getRate(ccy1.focused, baseRate);
+  const baseRate = utils.getBaseRate(ccy2.code, ccy1.code, rates);
+  const rate = utils.getRate(ccy1.focused, baseRate);
 
   return {
     ...state,
@@ -117,22 +96,22 @@ export const invertCurrencyReducer = state => {
     [CCY1]: {
       ...ccy1,
       code: ccy2.code,
-      value: getValue(ccy1, ccy2, rate),
-      formatted: getFormatted(ccy1, ccy2, rate),
+      value: utils.getValue(ccy1, ccy2, rate),
+      formatted: utils.getFormatted(ccy1, ccy2, rate),
     },
     [CCY2]: {
       ...ccy2,
       code: ccy1.code,
-      value: getValue(ccy2, ccy1, rate),
-      formatted: getFormatted(ccy2, ccy1, rate),
+      value: utils.getValue(ccy2, ccy1, rate),
+      formatted: utils.getFormatted(ccy2, ccy1, rate),
     },
   };
 };
 
 export const changeCcy1CodeReducer = (state, action) => {
   const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
-  const baseRate = getBaseRate(action.code, ccy2.code, rates);
-  const rate = getRate(ccy1.focused, baseRate);
+  const baseRate = utils.getBaseRate(action.code, ccy2.code, rates);
+  const rate = utils.getRate(ccy1.focused, baseRate);
 
   return {
     ...state,
@@ -141,21 +120,21 @@ export const changeCcy1CodeReducer = (state, action) => {
     [CCY1]: {
       ...ccy1,
       code: action.code,
-      value: getValue(ccy1, ccy2, rate),
-      formatted: getFormatted(ccy1, ccy2, rate),
+      value: utils.getValue(ccy1, ccy2, rate),
+      formatted: utils.getFormatted(ccy1, ccy2, rate),
     },
     [CCY2]: {
       ...ccy2,
-      value: getValue(ccy2, ccy1, rate),
-      formatted: getFormatted(ccy2, ccy1, rate),
+      value: utils.getValue(ccy2, ccy1, rate),
+      formatted: utils.getFormatted(ccy2, ccy1, rate),
     }
   };
 };
 
 export const changeCcy2CodeReducer = (state, action) => {
   const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
-  const baseRate = getBaseRate(ccy1.code, action.code, rates);
-  const rate = getRate(ccy1.focused, baseRate);
+  const baseRate = utils.getBaseRate(ccy1.code, action.code, rates);
+  const rate = utils.getRate(ccy1.focused, baseRate);
 
   return {
     ...state,
@@ -163,21 +142,21 @@ export const changeCcy2CodeReducer = (state, action) => {
     rate,
     [CCY1]: {
       ...ccy1,
-      value: getValue(ccy1, ccy2, rate),
-      formatted: getFormatted(ccy1, ccy2, rate),
+      value: utils.getValue(ccy1, ccy2, rate),
+      formatted: utils.getFormatted(ccy1, ccy2, rate),
     },
     [CCY2]: {
       ...ccy2,
       code: action.code,
-      value: getValue(ccy2, ccy1, rate),
-      formatted: getFormatted(ccy2, ccy1, rate),
+      value: utils.getValue(ccy2, ccy1, rate),
+      formatted: utils.getFormatted(ccy2, ccy1, rate),
     }
   };
 };
 
 export const changeCurrencyCodeReducer = (state, action) => {
   const { id: base, code } = action;
-  const counter = getCounter(base);
+  const counter = utils.getCounter(base);
   const counterCode = state[counter].code;
   const isInverted = counterCode === code;
 
@@ -185,11 +164,11 @@ export const changeCurrencyCodeReducer = (state, action) => {
     return invertCurrencyReducer(state);
   }
 
-  if (isCcy1(base)) {
+  if (utils.isCcy1(base)) {
     return changeCcy1CodeReducer(state, action);
   }
 
-  if (isCcy2(base)) {
+  if (utils.isCcy2(base)) {
     return changeCcy2CodeReducer(state, action);
   }
 
@@ -198,7 +177,7 @@ export const changeCurrencyCodeReducer = (state, action) => {
 
 export const swapCurrencyReducer = state => {
   const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
-  const rate = getBaseRate(ccy2.code, ccy1.code, rates);
+  const rate = utils.getBaseRate(ccy2.code, ccy1.code, rates);
 
   return {
     ...state,
@@ -237,19 +216,19 @@ export const exchangeAmountReducer = state => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_FOCUS:
+    case types.CHANGE_FOCUS:
       return changeFocusReducer(state, action);
-    case FETCH_CURRENCY_RATES_SUCCESS:
+    case types.FETCH_CURRENCY_RATES_SUCCESS:
       return fetchCurrencyRatesSuccessReducer(state, action);
-    case FETCH_CURRENCY_RATES_ERROR:
+    case types.FETCH_CURRENCY_RATES_ERROR:
       return fetchCurrencyRatesErrorReducer(state, action);
-    case CHANGE_CURRENCY_VALUE:
+    case types.CHANGE_CURRENCY_VALUE:
       return changeCurrencyValueReducer(state, action);
-    case CHANGE_CURRENCY_CODE:
+    case types.CHANGE_CURRENCY_CODE:
       return changeCurrencyCodeReducer(state, action);
-    case SWAP_CURRENCY:
+    case types.SWAP_CURRENCY:
       return swapCurrencyReducer(state, action);
-    case EXCHANGE_AMOUNT:
+    case types.EXCHANGE_AMOUNT:
       return exchangeAmountReducer(state, action);
     default:
       return state;

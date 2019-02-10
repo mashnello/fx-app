@@ -1,4 +1,4 @@
-import { CCY1, CCY2, MAX_INPUT_LENGHT } from '../constants';
+import { CCY1, CCY2, MAX_INPUT_LENGHT } from '../constants/common';
 
 export const addPrefix = (value, isBase) => {
   const isTruthy = value && Number(value) !== 0;

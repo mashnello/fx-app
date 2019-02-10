@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { addPrefix } from '../../utils';
-import { CCY1, MAX_INPUT_LENGHT } from '../../constants';
+import { CCY1, MAX_INPUT_LENGHT } from '../../constants/common';
 
 import styles from './CurrencyInput.module.css';
 

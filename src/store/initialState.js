@@ -1,4 +1,4 @@
-import { CCY1, CCY2 } from '../constants';
+import { CCY1, CCY2 } from '../constants/common';
 
 const initialState = {
   [CCY1]: {

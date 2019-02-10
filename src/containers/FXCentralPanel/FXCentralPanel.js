@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/instrument';
 import FXRate from '../../components/FXRate';
 import SwapButton from '../../components/SwapButton';
-import { CCY1, CCY2 } from '../../constants';
+import { CCY1, CCY2 } from '../../constants/common';
 
 import styles from './FXCentralPanel.module.css';
 

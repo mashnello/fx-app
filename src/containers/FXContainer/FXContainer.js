@@ -6,7 +6,7 @@ import FXButton from '../../components/FXButton';
 import CurrencyContainer from '../CurrencyContainer';
 import FXCentralPanel from '../FXCentralPanel';
 import * as actions from '../../actions/instrument';
-import { CCY1, CCY2, POLLING_DELAY } from '../../constants';
+import { CCY1, CCY2, POLLING_DELAY } from '../../constants/common';
 
 class FXContainer extends Component {
   componentDidMount() {
