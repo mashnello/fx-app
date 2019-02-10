@@ -56,7 +56,7 @@ export const parseCurrency = value => {
 };
 
 export const getRate = (ccy1, ccy2, rates) => {
-  return rates[ccy1] / rates[ccy2];
+  return rates[ccy2] / rates[ccy1];
 };
 
 export const simulateTick = rates => Object.keys(rates).forEach(

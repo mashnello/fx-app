@@ -5,16 +5,16 @@ import { formatCurrencyOutput } from '../../utils';
 
 import styles from './FXRate.module.css';
 
-const FXRate = ({ ccy1Code, ccy2Code, currencies, rate }) => {
+const FXRate = ({ ccy1Code, ccy2Code, currencies, baseRate }) => {
   const ccy1Symbol = currencies[ccy1Code].symbol;
   const ccy2Symbol = currencies[ccy2Code].symbol;
-  const formattedRate = `${ccy1Symbol}1 = ${ccy2Symbol}${formatCurrencyOutput(rate, 4)}`;
+  const formattedRate = `${ccy1Symbol}1 = ${ccy2Symbol}${formatCurrencyOutput(baseRate, 4)}`;
 
   return (
     <div className={styles.rateWrapper}>
       <ArrowIcon width={17} height={17} />
       <span className={styles.rate}>
-        {rate ? formattedRate : null}
+        {baseRate ? formattedRate : null}
       </span>
     </div>
   );
@@ -26,7 +26,7 @@ FXRate.propTypes = {
   ccy1Code: string.isRequired,
   ccy2Code: string.isRequired,
   currencies: objectOf(object).isRequired,
-  rate: number.isRequired,
+  baseRate: number.isRequired,
 };
 
 export default FXRate;

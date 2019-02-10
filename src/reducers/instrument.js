@@ -24,9 +24,11 @@ import {
 export const changeFocusReducer = (state, action) => {
   const { id: base } = action;
   const counter = getCounter(base);
+  const rate = isCcy1(base) ? state.rate : 1 / state.rate;
 
   return {
     ...state,
+    rate,
     [base]: {
       ...state[base],
       focused: true
@@ -42,13 +44,15 @@ export const fetchCurrencyRatesSuccessReducer = (state, action) => {
   const { ccy1, ccy2 } = state;
   const { rates } = action;
   simulateTick(rates);
-  const rate = getRate(ccy1.code, ccy2.code, rates);
   const base = ccy1.focused ? 'ccy1' : 'ccy2';
+  const baseRate = getRate(ccy1.code, ccy2.code, rates);
+  const rate = ccy1.focused ? baseRate : 1 / baseRate;
   const counter = getCounter(base);
   const convertedValue = applyRate(state[base].value, rate);
 
   return {
     ...state,
+    baseRate,
     rate,
     rates,
     [counter]: {
@@ -101,6 +105,7 @@ export const invertCurrencyReducer = state => {
 
   return {
     ...state,
+    baseRate: rate,
     rate,
     ccy1: {
       ...ccy1,
@@ -121,6 +126,7 @@ export const changeCcy1CodeReducer = (state, action) => {
 
   return {
     ...state,
+    baseRate: rate,
     rate,
     ccy1: {
       ...ccy1,
@@ -137,9 +143,11 @@ export const changeCcy1CodeReducer = (state, action) => {
 export const changeCcy2CodeReducer = (state, action) => {
   const { ccy1, ccy2, rates } = state;
   const rate = getRate(ccy1.code, action.code, rates);
+  const baseRate = ccy1.focused ? rate : 1 / rate;
 
   return {
     ...state,
+    baseRate,
     rate,
     ccy2: {
       ...ccy2,
@@ -177,6 +185,7 @@ export const swapCurrencyReducer = state => {
 
   return {
     ...state,
+    baseRate: rate,
     rate,
     ccy1: ccy2,
     ccy2: ccy1,
@@ -220,6 +229,7 @@ export default (state = initialState, action) => {
     case CHANGE_CURRENCY_VALUE:
       return changeCurrencyValueReducer(state, action);
     case CHANGE_CURRENCY_CODE:
+      // TODO: fix currency code changes
       return changeCurrencyCodeReducer(state, action);
     case SWAP_CURRENCY:
       return swapCurrencyReducer(state, action);

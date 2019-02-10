@@ -14,6 +14,7 @@ const initialState = {
     fee: 0,
   },
   rate: 0,
+  baseRate: 0,
   fee: {
     limit: 5000,
     multiplier: 0.01,
