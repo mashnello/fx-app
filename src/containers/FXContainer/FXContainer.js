@@ -9,7 +9,7 @@ import * as actions from '../../actions/instrument';
 
 class FXContainer extends Component {
   componentDidMount() {
-    const POLLING_DELAY = 10000;
+    const POLLING_DELAY = 3000;
     const { fetchCurrencyRates } = this.props;
     fetchCurrencyRates();
     this.timer = setInterval(fetchCurrencyRates, POLLING_DELAY);
