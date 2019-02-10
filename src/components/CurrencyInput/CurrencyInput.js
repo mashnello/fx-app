@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { MAX_INPUT_LENGHT, addPrefix } from '../../utils';
+import { addPrefix } from '../../utils';
+import { CCY1, MAX_INPUT_LENGHT } from '../../constants';
 
 import styles from './CurrencyInput.module.css';
 
@@ -9,7 +10,7 @@ class CurrencyInput extends Component {
 
   componentDidMount() {
     const { id } = this.props;
-    const isBase = id === 'ccy1';
+    const isBase = id === CCY1;
     if (isBase) {
       this.input.current.focus();
     }
@@ -34,7 +35,7 @@ class CurrencyInput extends Component {
 
   render() {
     const { id, value } = this.props;
-    const isBase = id === 'ccy1';
+    const isBase = id === CCY1;
 
     return (
       <input

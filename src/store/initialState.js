@@ -1,12 +1,14 @@
+import { CCY1, CCY2 } from '../constants';
+
 const initialState = {
-  ccy1: {
+  [CCY1]: {
     code: 'USD',
     value: '',
     formatted: '',
     focused: true,
     fee: 0,
   },
-  ccy2: {
+  [CCY2]: {
     code: 'EUR',
     value: '',
     formatted: '',

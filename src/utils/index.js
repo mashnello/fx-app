@@ -1,10 +1,11 @@
-export const MAX_INPUT_LENGHT = 14;
+import { CCY1, CCY2, MAX_INPUT_LENGHT } from '../constants';
 
-export const getCounter = base => base === 'ccy1' ? 'ccy2' : 'ccy1';
+export const addPrefix = (value, isBase) => {
+  const isTruthy = value && Number(value) !== 0;
+  const prefix = isBase ? '-' : '+';
 
-export const isCcy1 = ccy => ccy === 'ccy1';
-
-export const isCcy2 = ccy => ccy === 'ccy2';
+  return isTruthy ? `${prefix} ${value}` : value;
+};
 
 export const applyRate = (amount, rate) => {
   if (!amount || !Number(amount)) return amount;
@@ -30,13 +31,6 @@ export const formatDecimal = (value, precision) => {
   return formattedDecimal;
 };
 
-export const addPrefix = (value, isBase) => {
-  const isTruthy = value && Number(value) !== 0;
-  const prefix = isBase ? '-' : '+';
-
-  return isTruthy ? `${prefix} ${value}` : value;
-};
-
 export const formatCurrencyOutput = (value, precision = 2) => {
   const formattedString = /\./.test(value)
     ? formatDecimal(value, precision)
@@ -47,16 +41,54 @@ export const formatCurrencyOutput = (value, precision = 2) => {
     : '';
 };
 
+export const getBaseRate = (ccy1, ccy2, rates) => {
+  return rates[ccy2] / rates[ccy1];
+};
+
+export const getCounter = base => {
+  if (base === CCY1) {
+    return CCY2;
+  }
+  return CCY1;
+};
+
+export const getFormatted = ({ focused, formatted }, { value }, rate) => {
+  if (focused) {
+    return formatted;
+  }
+  return formatCurrencyOutput(applyRate(value, rate));
+};
+
+export const getFee = (value, fee, rate) => {
+  return value > fee.limit
+    ? (value - fee.limit) * fee.multiplier * rate
+    : 0;
+};
+
+export const getRate = (isCcy1Focused, baseRate) => {
+  if (isCcy1Focused) {
+    return baseRate;
+  }
+  return 1 / baseRate
+};
+
+export const getValue = ({ focused, value }, counter, rate) => {
+  if (focused) {
+    return value;
+  }
+  return applyRate(counter.value, rate);
+};
+
+export const isCcy1 = ccy => ccy === CCY1;
+
+export const isCcy2 = ccy => ccy === CCY2;
+
 export const parseCurrency = value => {
   const dotsInValue = value.match(/\./g) && value.match(/\./g).length;
   const withSingleDot = dotsInValue > 1 ? value.replace(/\.$/, '') : value;
   const parsedCurrency = withSingleDot.replace(/[^0-9.]/g, '');
 
   return parsedCurrency;
-};
-
-export const getRate = (ccy1, ccy2, rates) => {
-  return rates[ccy2] / rates[ccy1];
 };
 
 export const simulateTick = rates => Object.keys(rates).forEach(
@@ -66,9 +98,3 @@ export const simulateTick = rates => Object.keys(rates).forEach(
     return rates[code] *= correlation;
   }
 );
-
-export const getFee = (value, fee, rate) => {
-  return value > fee.limit
-    ? (value - fee.limit) * fee.multiplier * rate
-    : 0;
-};

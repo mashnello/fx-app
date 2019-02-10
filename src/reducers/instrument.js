@@ -1,23 +1,27 @@
 import {
-  CHANGE_FOCUS,
-  CHANGE_CURRENCY_VALUE,
   CHANGE_CURRENCY_CODE,
-  SWAP_CURRENCY,
+  CHANGE_CURRENCY_VALUE,
+  CHANGE_FOCUS,
   EXCHANGE_AMOUNT,
   FETCH_CURRENCY_RATES_SUCCESS,
   FETCH_CURRENCY_RATES_ERROR,
+  SWAP_CURRENCY,
 } from '../actions/instrument';
+import { CCY1, CCY2 } from '../constants';
 import initialState from '../store/initialState';
 import {
-  getCounter,
   applyRate,
+  getCounter,
+  getBaseRate,
+  getFormatted,
+  getFee,
   getRate,
-  parseCurrency,
+  getValue,
   formatCurrencyOutput,
   isCcy1,
   isCcy2,
+  parseCurrency,
   simulateTick,
-  getFee,
 } from '../utils';
 
 
@@ -41,12 +45,14 @@ export const changeFocusReducer = (state, action) => {
 };
 
 export const fetchCurrencyRatesSuccessReducer = (state, action) => {
-  const { ccy1, ccy2 } = state;
+  const { [CCY1]: ccy1, [CCY2]: ccy2 } = state;
   const { rates } = action;
-  simulateTick(rates);
-  const base = ccy1.focused ? 'ccy1' : 'ccy2';
-  const baseRate = getRate(ccy1.code, ccy2.code, rates);
-  const rate = ccy1.focused ? baseRate : 1 / baseRate;
+
+  /simulateTick/.test(window.location.search) && simulateTick(rates);
+
+  const base = ccy1.focused ? CCY1 : CCY2;
+  const baseRate = getBaseRate(ccy1.code, ccy2.code, rates);
+  const rate = getRate(ccy1.focused, baseRate);
   const counter = getCounter(base);
   const convertedValue = applyRate(state[base].value, rate);
 
@@ -100,71 +106,71 @@ export const changeCurrencyValueReducer = (state, action) => {
 };
 
 export const invertCurrencyReducer = state => {
-  const { ccy1, ccy2, rates } = state;
-  const baseRate = getRate(ccy2.code, ccy1.code, rates);
-  const rate = ccy1.focused ? baseRate : 1 / baseRate;
+  const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
+  const baseRate = getBaseRate(ccy2.code, ccy1.code, rates);
+  const rate = getRate(ccy1.focused, baseRate);
 
   return {
     ...state,
     baseRate,
     rate,
-    ccy1: {
+    [CCY1]: {
       ...ccy1,
       code: ccy2.code,
-      value: ccy1.focused ? ccy1.value : applyRate(ccy2.value, rate),
-      formatted: ccy1.focused ? ccy1.formatted : formatCurrencyOutput(applyRate(ccy2.value, rate)),
+      value: getValue(ccy1, ccy2, rate),
+      formatted: getFormatted(ccy1, ccy2, rate),
     },
-    ccy2: {
+    [CCY2]: {
       ...ccy2,
       code: ccy1.code,
-      value: ccy2.focused ? ccy2.value : applyRate(ccy1.value, rate),
-      formatted: ccy2.focused ? ccy2.formatted : formatCurrencyOutput(applyRate(ccy1.value, rate)),
+      value: getValue(ccy2, ccy1, rate),
+      formatted: getFormatted(ccy2, ccy1, rate),
     },
   };
 };
 
 export const changeCcy1CodeReducer = (state, action) => {
-  const { ccy1, ccy2, rates } = state;
-  const baseRate = getRate(action.code, ccy2.code, rates);
-  const rate = ccy1.focused ? baseRate : 1 / baseRate;
+  const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
+  const baseRate = getBaseRate(action.code, ccy2.code, rates);
+  const rate = getRate(ccy1.focused, baseRate);
 
   return {
     ...state,
     baseRate,
     rate,
-    ccy1: {
+    [CCY1]: {
       ...ccy1,
       code: action.code,
-      value: ccy1.focused ? ccy1.value : applyRate(ccy2.value, rate),
-      formatted: ccy1.focused ? ccy1.formatted : formatCurrencyOutput(applyRate(ccy2.value, rate)),
+      value: getValue(ccy1, ccy2, rate),
+      formatted: getFormatted(ccy1, ccy2, rate),
     },
-    ccy2: {
+    [CCY2]: {
       ...ccy2,
-      value: ccy2.focused ? ccy2.value : applyRate(ccy1.value, rate),
-      formatted: ccy2.focused ? ccy2.formatted : formatCurrencyOutput(applyRate(ccy1.value, rate)),
+      value: getValue(ccy2, ccy1, rate),
+      formatted: getFormatted(ccy2, ccy1, rate),
     }
   };
 };
 
 export const changeCcy2CodeReducer = (state, action) => {
-  const { ccy1, ccy2, rates } = state;
-  const baseRate = getRate(ccy1.code, action.code, rates);
-  const rate = ccy1.focused ? baseRate : 1 / baseRate;
+  const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
+  const baseRate = getBaseRate(ccy1.code, action.code, rates);
+  const rate = getRate(ccy1.focused, baseRate);
 
   return {
     ...state,
     baseRate,
     rate,
-    ccy1: {
+    [CCY1]: {
       ...ccy1,
-      value: ccy1.focused ? ccy1.value : applyRate(ccy2.value, rate),
-      formatted: ccy1.focused ? ccy1.formatted : formatCurrencyOutput(applyRate(ccy2.value, rate)),
+      value: getValue(ccy1, ccy2, rate),
+      formatted: getFormatted(ccy1, ccy2, rate),
     },
-    ccy2: {
+    [CCY2]: {
       ...ccy2,
       code: action.code,
-      value: ccy2.focused ? ccy2.value : applyRate(ccy1.value, rate),
-      formatted: ccy2.focused ? ccy2.formatted : formatCurrencyOutput(applyRate(ccy1.value, rate)),
+      value: getValue(ccy2, ccy1, rate),
+      formatted: getFormatted(ccy2, ccy1, rate),
     }
   };
 };
@@ -191,31 +197,31 @@ export const changeCurrencyCodeReducer = (state, action) => {
 };
 
 export const swapCurrencyReducer = state => {
-  const { ccy1, ccy2, rates } = state;
-  const rate = getRate(ccy2.code, ccy1.code, rates);
+  const { [CCY1]: ccy1, [CCY2]: ccy2, rates } = state;
+  const rate = getBaseRate(ccy2.code, ccy1.code, rates);
 
   return {
     ...state,
     baseRate: rate,
     rate,
-    ccy1: ccy2,
-    ccy2: ccy1,
+    [CCY1]: ccy2,
+    [CCY2]: ccy1,
   };
 };
 
 export const exchangeAmountReducer = state => {
-  const { ccy1, ccy2, pockets } = state;
+  const { [CCY1]: ccy1, [CCY2]: ccy2, pockets } = state;
   const updatedBasePocket = pockets[ccy1.code] - ccy1.value;
   const updatedCounterPocket = pockets[ccy2.code] + ccy2.value;
 
   return {
     ...state,
-    ccy1: {
+    [CCY1]: {
       ...ccy1,
       value: '',
       formatted: '',
     },
-    ccy2: {
+    [CCY2]: {
       ...ccy2,
       value: '',
       formatted: '',

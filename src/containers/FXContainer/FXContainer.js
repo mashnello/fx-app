@@ -6,10 +6,10 @@ import FXButton from '../../components/FXButton';
 import CurrencyContainer from '../CurrencyContainer';
 import FXCentralPanel from '../FXCentralPanel';
 import * as actions from '../../actions/instrument';
+import { CCY1, CCY2, POLLING_DELAY } from '../../constants';
 
 class FXContainer extends Component {
   componentDidMount() {
-    const POLLING_DELAY = 3000;
     const { fetchCurrencyRates } = this.props;
     fetchCurrencyRates();
     this.timer = setInterval(fetchCurrencyRates, POLLING_DELAY);
@@ -43,7 +43,7 @@ class FXContainer extends Component {
     return (
       <main>
         <CurrencyContainer
-          id="ccy1"
+          id={CCY1}
           ccyCode={ccy1Code}
           fee={ccy1Fee}
           focused={isCcy1Focused}
@@ -54,7 +54,7 @@ class FXContainer extends Component {
         />
         <FXCentralPanel />
         <CurrencyContainer
-          id="ccy2"
+          id={CCY2}
           ccyCode={ccy2Code}
           fee={ccy2Fee}
           focused={isCcy2Focused}
@@ -90,15 +90,15 @@ FXContainer.propTypes = {
 };
 
 const mapStateToProps = ({ instrument }) => ({
-  ccy1Code: instrument.ccy1.code,
-  ccy2Code: instrument.ccy2.code,
-  ccy1Fee: instrument.ccy1.fee,
-  ccy2Fee: instrument.ccy2.fee,
-  isCcy1Focused: instrument.ccy1.focused,
-  isCcy2Focused: instrument.ccy2.focused,
-  ccy1Value: instrument.ccy1.value,
-  ccy1Formatted: instrument.ccy1.formatted,
-  ccy2Formatted: instrument.ccy2.formatted,
+  ccy1Code: instrument[CCY1].code,
+  ccy2Code: instrument[CCY2].code,
+  ccy1Fee: instrument[CCY1].fee,
+  ccy2Fee: instrument[CCY2].fee,
+  isCcy1Focused: instrument[CCY1].focused,
+  isCcy2Focused: instrument[CCY2].focused,
+  ccy1Value: instrument[CCY1].value,
+  ccy1Formatted: instrument[CCY1].formatted,
+  ccy2Formatted: instrument[CCY2].formatted,
   pockets: instrument.pockets,
 });
 

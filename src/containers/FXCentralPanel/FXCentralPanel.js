@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/instrument';
 import FXRate from '../../components/FXRate';
 import SwapButton from '../../components/SwapButton';
+import { CCY1, CCY2 } from '../../constants';
 
 import styles from './FXCentralPanel.module.css';
 
@@ -35,8 +36,8 @@ FXCentralPanel.propTypes = {
 };
 
 const mapStateToProps = ({ instrument }) => ({
-  ccy1Code: instrument.ccy1.code,
-  ccy2Code: instrument.ccy2.code,
+  ccy1Code: instrument[CCY1].code,
+  ccy2Code: instrument[CCY2].code,
   currencies: instrument.currencies,
   baseRate: instrument.baseRate,
 });
